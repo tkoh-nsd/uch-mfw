@@ -1,0 +1,34 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read and write access to all documents
+    // WARNING: This is for development only!
+    // For production, implement proper authentication and authorization
+
+    // Structure: bookings/{date}/appointments/{appointmentId}
+    match /bookings/{date}/appointments/{appointment} {
+      allow read, write: if true;
+    }
+
+	    // Timeslot templates: used by admin "Add Days" page to save/load timeslot presets
+	    match /timeslot_templates/{templateId} {
+	      allow read, write: if true;
+	    }
+
+    // Public holidays collection (read-only for clients, write for admin)
+    match /public_holidays/{date} {
+      allow read: if true;
+      allow write: if true; // For development - restrict in production
+    }
+
+    // For production, use something like this instead:
+    // match /bookings/{date}/appointments/{appointment} {
+    //   allow read, write: if request.auth != null;
+    // }
+    // match /public_holidays/{date} {
+    //   allow read: if true;
+    //   allow write: if request.auth != null && request.auth.token.admin == true;
+    // }
+  }
+}
+

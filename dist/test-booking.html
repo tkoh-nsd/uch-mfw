@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Feature Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .test-section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-section h2 {
+            color: #333;
+            margin-top: 0;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status.pass {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status.fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .test-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9fafb;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        .test-item h3 {
+            margin: 0 0 10px 0;
+            color: #1f2937;
+            font-size: 16px;
+        }
+        .test-item p {
+            margin: 5px 0;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .checklist li:before {
+            content: "☐ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #5568d3;
+        }
+        .button.secondary {
+            background: #6b7280;
+        }
+        .button.secondary:hover {
+            background: #4b5563;
+        }
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .info-box strong {
+            color: #1e40af;
+        }
+        .code {
+            background: #1f2937;
+            color: #10b981;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧪 Booking Feature Test Suite</h1>
+        <p>Comprehensive testing for the appointment booking and locking system</p>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Test Setup</h2>
+        <div class="info-box">
+            <strong>Important:</strong> You need TWO browser windows to test the multi-user locking feature.
+        </div>
+        <a href="http://localhost:5174/" target="_blank" class="button">Open Window 1 (Normal)</a>
+        <a href="http://localhost:5174/" target="_blank" class="button secondary">Open Window 2 (Use Incognito)</a>
+        
+        <p style="margin-top: 20px;">
+            <strong>Why Incognito?</strong> Each browser window needs a different user ID. 
+            Incognito mode ensures Window 2 gets a different ID stored in localStorage.
+        </p>
+    </div>
+
+    <div class="test-section">
+        <h2>✅ Test 1: Basic Booking Flow</h2>
+        <div class="test-item">
+            <h3>Window 1 - Initial State</h3>
+            <ul class="checklist">
+                <li>Table displays with appointments</li>
+                <li>All rows show blue "Book" button</li>
+                <li>All input fields are disabled (gray)</li>
+            </ul>
+        </div>
+        
+        <div class="test-item">
+            <h3>Window 1 - Book Appointment</h3>
+            <ul class="checklist">
+                <li>Click "Book" on any row</li>
+                <li>Button changes to "Save" (green) and "Cancel" (gray)</li>
+                <li>Input fields become enabled (white)</li>
+                <li>Toast shows "Appointment booked for editing"</li>
+            </ul>
+        </div>
+        
+        <div class="test-item">
+            <h3>Window 1 - Edit and Save</h3>
+            <ul class="checklist">
+                <li>Type in Pt Name 1, Phone 1, Remarks fields</li>
+                <li>Click "Save" button</li>
+                <li>Toast shows "Appointment saved successfully"</li>
+                <li>"Last Edit" column updates with timestamp</li>
+                <li>Buttons change back to "Book"</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔒 Test 2: Multi-User Locking</h2>
+        <div class="test-item">
+            <h3>Window 1 - Book a Row</h3>
+            <ul class="checklist">
+                <li>Click "Book" on a specific row (remember which one)</li>
+                <li>Row becomes editable</li>
+            </ul>
+        </div>
+        
+        <div class="test-item">
+            <h3>Window 2 - Verify Lock</h3>
+            <ul class="checklist">
+                <li>Find the same row that Window 1 booked</li>
+                <li>See red lock icon with "Locked" text</li>
+                <li>Input fields are disabled</li>
+                <li>Cannot type in fields</li>
+                <li>No "Book" button visible</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>⚡ Test 3: Real-Time Updates</h2>
+        <div class="test-item">
+            <h3>Window 1 - Make Changes</h3>
+            <ul class="checklist">
+                <li>Edit appointment data</li>
+                <li>Click "Save"</li>
+            </ul>
+        </div>
+        
+        <div class="test-item">
+            <h3>Window 2 - Verify Real-Time Sync</h3>
+            <ul class="checklist">
+                <li>Within 1-2 seconds, lock icon disappears</li>
+                <li>"Book" button appears</li>
+                <li>Changes from Window 1 are visible</li>
+                <li>"Last Edit" timestamp is updated</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>❌ Test 4: Cancel Booking</h2>
+        <div class="test-item">
+            <h3>Window 2 - Book and Cancel</h3>
+            <ul class="checklist">
+                <li>Click "Book" on a different row</li>
+                <li>Make some edits</li>
+                <li>Click "Cancel" button</li>
+                <li>Toast shows "Booking cancelled"</li>
+                <li>Edits are discarded</li>
+                <li>Button changes back to "Book"</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎯 Success Criteria</h2>
+        <div class="info-box">
+            <p><strong>All tests must pass for production deployment:</strong></p>
+            <ul style="margin: 10px 0; padding-left: 20px;">
+                <li>✅ Booking mechanism works</li>
+                <li>✅ Locking prevents concurrent edits</li>
+                <li>✅ Real-time updates propagate within 2 seconds</li>
+                <li>✅ Cancel discards changes</li>
+                <li>✅ User ID persists across page refresh</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🚀 Deployment</h2>
+        <p>Once all tests pass, deploy to production:</p>
+        <div class="code" style="display: block; padding: 15px; margin: 10px 0;">
+            npm run build<br>
+            firebase deploy
+        </div>
+        <p>Then repeat all tests on the production URL!</p>
+    </div>
+</body>
+</html>
+

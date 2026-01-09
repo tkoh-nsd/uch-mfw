@@ -1,0 +1,32 @@
+{
+  "name": "tkoh-mfw",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "import-data": "node scripts/importData.js",
+    "fix-data": "node scripts/fixData.js",
+    "list-collections": "node scripts/listCollections.js",
+    "check-excel": "node scripts/checkExcel.js",
+    "test-booking": "node scripts/testBookingFeature.js",
+    "test-booking-log": "node scripts/testBookingWithLog.js"
+  },
+  "dependencies": {
+    "@primevue/themes": "^4.5.4",
+    "dayjs": "^1.11.19",
+    "firebase": "^12.7.0",
+    "pinia": "^3.0.4",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.5.4",
+    "vue": "^3.5.24",
+    "vue-router": "^4.5.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "vite": "^7.2.4"
+  }
+}
