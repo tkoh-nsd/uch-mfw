@@ -65,6 +65,7 @@
 	          </template>
 	          <template #filter>
 	            <Select
+	              v-if="showFilters"
 	              v-model="filters.time.value"
 	              @change="applyFilterSnapshot()"
 	              :options="uniqueTimeValues"
@@ -82,6 +83,7 @@
 	          </template>
 	          <template #filter>
 	            <Select
+	              v-if="showFilters"
 	              v-model="filters.service.value"
 	              @change="applyFilterSnapshot()"
 	              :options="uniqueServiceValues"
@@ -107,6 +109,7 @@
 	          </template>
 	          <template #filter>
 	            <Select
+	              v-if="showFilters"
 	              v-model="filters.cwa.value"
 	              @change="applyFilterSnapshot()"
 	              :options="cwaFilterOptions"
@@ -132,6 +135,7 @@
 	          </template>
 	          <template #filter>
 	            <Select
+	              v-if="showFilters"
 	              v-model="filters.pt_name.value"
 	              @change="applyFilterSnapshot()"
 	              :options="uniquePtNameValues"
@@ -172,6 +176,7 @@
 	          </template>
 	          <template #filter>
 	            <Select
+	              v-if="showFilters"
 	              v-model="filters.rmsw.value"
 	              @change="applyFilterSnapshot()"
 	              :options="uniqueRmswValues"
@@ -212,6 +217,7 @@
 	          </template>
 	          <template #filter>
 	            <Select
+	              v-if="showFilters"
 	              v-model="filters.ea.value"
 	              @change="applyFilterSnapshot()"
 	              :options="uniqueEaValues"
@@ -257,6 +263,7 @@
 	          </template>
 	          <template #filter>
 	            <Select
+	              v-if="showFilters"
 	              v-model="filters.new_fu.value"
 	              @change="applyFilterSnapshot()"
 	              :options="uniqueNewFuValues"
@@ -309,6 +316,7 @@
           </template>
           <template #filter>
             <Select
+              v-if="showFilters"
               v-model="filters.last_edit.value"
               @change="applyFilterSnapshot()"
               :options="uniqueLastEditValues"
@@ -398,7 +406,7 @@
 </template>
 
 	<script setup>
-	import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+	import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
 	import { useRouter } from 'vue-router';
 	import { useAppointmentStore } from '../stores/appointmentStore';
 	import dayjs from 'dayjs';
@@ -445,6 +453,12 @@ const lastActivityTime = ref(new Map()); // appointmentId -> timestamp
 const visibleAppointmentIds = ref(new Set());
 // Track whether any filters are active
 const hasActiveFilters = ref(false);
+
+// Control filter visibility for forcing re-render
+const showFilters = ref(true);
+
+// Store saved filter state for restoration
+const savedFilterState = ref(null);
 
 // Initialize filters for DataTable
 	const filters = ref({
@@ -748,13 +762,148 @@ const getRowClass = (data) => {
   return classes.join(' ');
 };
 
+// Save current filter state
+const saveFilterState = () => {
+  console.log('[Filter State] Saving current filter state...');
+  savedFilterState.value = {
+    time: filters.value.time.value,
+    service: filters.value.service.value,
+    cwa: filters.value.cwa.value,
+    pt_name: filters.value.pt_name.value,
+    rmsw: filters.value.rmsw.value,
+    ea: filters.value.ea.value,
+    new_fu: filters.value.new_fu.value,
+    remarks: filters.value.remarks.value,
+    last_edit: filters.value.last_edit.value,
+    hasActiveFilters: hasActiveFilters.value,
+    visibleIds: new Set(visibleAppointmentIds.value)
+  };
+  console.log('[Filter State] Saved:', {
+    time: savedFilterState.value.time,
+    service: savedFilterState.value.service,
+    cwa: savedFilterState.value.cwa,
+    pt_name: savedFilterState.value.pt_name,
+    rmsw: savedFilterState.value.rmsw,
+    ea: savedFilterState.value.ea,
+    new_fu: savedFilterState.value.new_fu,
+    remarks: savedFilterState.value.remarks,
+    last_edit: savedFilterState.value.last_edit,
+    hasActiveFilters: savedFilterState.value.hasActiveFilters,
+    visibleIdsCount: savedFilterState.value.visibleIds.size
+  });
+};
+
+// Restore filter state after data changes
+const restoreFilterState = async () => {
+  if (!savedFilterState.value) {
+    console.log('[Filter Restoration] No saved filter state to restore');
+    return;
+  }
+
+  console.log('[Filter Restoration] Starting filter restoration process...');
+
+  // Step 1: Save the filter values to restore
+  const filtersToRestore = {
+    time: savedFilterState.value.time,
+    service: savedFilterState.value.service,
+    cwa: savedFilterState.value.cwa,
+    pt_name: savedFilterState.value.pt_name,
+    rmsw: savedFilterState.value.rmsw,
+    ea: savedFilterState.value.ea,
+    new_fu: savedFilterState.value.new_fu,
+    remarks: savedFilterState.value.remarks,
+    last_edit: savedFilterState.value.last_edit
+  };
+
+  console.log('[Filter Restoration] Filters to restore:', filtersToRestore);
+
+  // Step 2: Reset all filter values to null
+  console.log('[Filter Restoration] Resetting all filters to null...');
+  filters.value.time.value = null;
+  filters.value.service.value = null;
+  filters.value.cwa.value = null;
+  filters.value.pt_name.value = null;
+  filters.value.rmsw.value = null;
+  filters.value.ea.value = null;
+  filters.value.new_fu.value = null;
+  filters.value.remarks.value = null;
+  filters.value.last_edit.value = null;
+
+  // Step 3: Hide filter components
+  console.log('[Filter Restoration] Hiding filter components...');
+  showFilters.value = false;
+
+  // Step 4: Wait for DOM update
+  await nextTick();
+  console.log('[Filter Restoration] Filters hidden, showing them again...');
+
+  // Step 5: Show filter components again
+  showFilters.value = true;
+
+  // Step 6: Wait for components to mount
+  await nextTick();
+  console.log('[Filter Restoration] Filters shown, restoring filter values...');
+
+  // Step 7: Restore the saved filter values
+  filters.value.time.value = filtersToRestore.time;
+  filters.value.service.value = filtersToRestore.service;
+  filters.value.cwa.value = filtersToRestore.cwa;
+  filters.value.pt_name.value = filtersToRestore.pt_name;
+  filters.value.rmsw.value = filtersToRestore.rmsw;
+  filters.value.ea.value = filtersToRestore.ea;
+  filters.value.new_fu.value = filtersToRestore.new_fu;
+  filters.value.remarks.value = filtersToRestore.remarks;
+  filters.value.last_edit.value = filtersToRestore.last_edit;
+
+  console.log('[Filter Restoration] Filter values restored');
+
+  // Step 8: Wait for another tick to ensure values are set
+  await nextTick();
+  console.log('[Filter Restoration] Checking if filters need to be reapplied...');
+
+  // Step 9: Check if any filters are active and reapply the filter snapshot
+  const anyFilterActive =
+    (filters.value.time.value !== null && filters.value.time.value !== undefined) ||
+    (filters.value.service.value !== null && filters.value.service.value !== undefined) ||
+    (filters.value.cwa.value !== null && filters.value.cwa.value !== undefined) ||
+    (filters.value.pt_name.value !== null && filters.value.pt_name.value !== undefined) ||
+    (filters.value.rmsw.value !== null && filters.value.rmsw.value !== undefined) ||
+    (filters.value.ea.value !== null && filters.value.ea.value !== undefined) ||
+    (filters.value.new_fu.value !== null && filters.value.new_fu.value !== undefined) ||
+    (filters.value.remarks.value !== null && filters.value.remarks.value !== undefined && filters.value.remarks.value !== '') ||
+    (filters.value.last_edit.value !== null && filters.value.last_edit.value !== undefined);
+
+  if (anyFilterActive) {
+    console.log('[Filter Restoration] Filters are active, reapplying filter snapshot...');
+    applyFilterSnapshot();
+  } else {
+    console.log('[Filter Restoration] No active filters detected');
+  }
+
+  console.log('[Filter Restoration] Restoration complete!');
+
+  // Clear saved state after restoration
+  savedFilterState.value = null;
+};
+
 // Watch for store date changes and update calendar
 watch(() => store.selectedDate, (newDate) => {
   calendarDate.value = dayjs(newDate).toDate();
+  // Save current filter state before clearing
+  saveFilterState();
   // Clear filter snapshot when date changes
   visibleAppointmentIds.value.clear();
   hasActiveFilters.value = false;
 });
+
+// Watch for appointments data changes to restore filters
+watch(() => store.appointments, async (newAppointments, oldAppointments) => {
+  // Only restore if we have saved filter state and appointments actually changed
+  if (savedFilterState.value && oldAppointments && newAppointments.length > 0) {
+    console.log('[Filter Restoration] Appointments data changed, restoring filters...');
+    await restoreFilterState();
+  }
+}, { deep: false });
 
 // Fetch public holidays from Firestore
 const fetchPublicHolidays = async () => {
