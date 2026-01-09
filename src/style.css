@@ -10,9 +10,10 @@
 	--app-surface: #f9fafb;
 	--app-text-main: #0f172a;
 
-	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	background-color: #242424;
+	/* Use a light, clinic-friendly base rather than the dark starter colors */
+	color-scheme: light;
+	color: var(--app-text-main);
+	background-color: var(--app-surface);
 
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
@@ -30,11 +31,11 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+	margin: 0;
+	min-width: 320px;
+	min-height: 100vh;
+	background-color: var(--app-surface);
+	color: var(--app-text-main);
 }
 
 h1 {

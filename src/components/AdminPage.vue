@@ -221,7 +221,7 @@ const goToPublicHolidays = () => {
   align-items: center;
   gap: 0.75rem;
   font-size: 1.3rem;
-  color: #2c3e50;
+	color: var(--app-text-main);
 }
 
 .card-title i {

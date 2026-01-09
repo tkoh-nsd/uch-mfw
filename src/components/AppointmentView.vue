@@ -331,46 +331,60 @@
           </template>
         </Column>
 
-        <Column header="Actions" :style="{ width: '180px' }" frozen alignFrozen="right">
-          <template #body="slotProps">
-            <!-- Book button - shown when not booked by anyone -->
-            <Button
-              v-if="!slotProps.data.booked_by"
-              label="Book"
-              icon="pi pi-lock"
-              @click.stop.prevent="bookAppointment(slotProps.data)"
-              :loading="bookingIds.has(slotProps.data.id)"
-              size="small"
-              class="p-button-info"
-            />
+	        <Column
+	          header="Actions"
+	          :style="{ width: '180px' }"
+	          frozen
+	          alignFrozen="right"
+	          :showFilterMenu="false"
+	        >
+	          <template #body="slotProps">
+	            <!-- Book button - shown when not booked by anyone -->
+	            <Button
+	              v-if="!slotProps.data.booked_by"
+	              label="Book"
+	              icon="pi pi-lock"
+	              @click.stop.prevent="bookAppointment(slotProps.data)"
+	              :loading="bookingIds.has(slotProps.data.id)"
+	              size="small"
+	              class="p-button-info"
+	            />
 
-            <!-- Save and Cancel buttons - shown when booked by current user -->
-            <div v-else-if="isEditableByCurrentUser(slotProps.data)" class="action-buttons">
-              <Button
-                label="Save"
-                icon="pi pi-save"
-                @click.stop.prevent="saveAppointment(slotProps.data)"
-                :loading="savingIds.has(slotProps.data.id)"
-                size="small"
-                class="p-button-success"
-              />
-              <Button
-                label="Cancel"
-                icon="pi pi-times"
-                @click.stop.prevent="cancelBooking(slotProps.data)"
-                :loading="cancelingIds.has(slotProps.data.id)"
-                size="small"
-                class="p-button-secondary"
-              />
-            </div>
+	            <!-- Save and Cancel buttons - shown when booked by current user -->
+	            <div v-else-if="isEditableByCurrentUser(slotProps.data)" class="action-buttons">
+	              <Button
+	                label="Save"
+	                icon="pi pi-save"
+	                @click.stop.prevent="saveAppointment(slotProps.data)"
+	                :loading="savingIds.has(slotProps.data.id)"
+	                size="small"
+	                class="p-button-success"
+	              />
+	              <Button
+	                label="Cancel"
+	                icon="pi pi-times"
+	                @click.stop.prevent="cancelBooking(slotProps.data)"
+	                :loading="cancelingIds.has(slotProps.data.id)"
+	                size="small"
+	                class="p-button-secondary"
+	              />
+	            </div>
 
-            <!-- Locked indicator - shown when booked by another user -->
-            <div v-else class="locked-indicator">
-              <i class="pi pi-lock" style="color: #ef4444;"></i>
-              <span class="locked-text">Locked</span>
-            </div>
-          </template>
-        </Column>
+	            <!-- Locked indicator - shown when booked by another user -->
+	            <div v-else class="locked-indicator">
+	              <i class="pi pi-lock" style="color: #ef4444;"></i>
+	              <span class="locked-text">Locked</span>
+	            </div>
+	          </template>
+	          <template #filter>
+	            <Button
+	              label="Export"
+	              icon="pi pi-file-excel"
+	              class="p-button-success p-button-sm"
+	              @click.stop.prevent="exportAppointmentsToExcel"
+	            />
+	          </template>
+	        </Column>
       </DataTable>
     </div>
 
@@ -383,24 +397,25 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAppointmentStore } from '../stores/appointmentStore';
-import dayjs from 'dayjs';
-import Button from 'primevue/button';
-import DatePicker from 'primevue/datepicker';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-	import InputText from 'primevue/inputtext';
-	import Textarea from 'primevue/textarea';
-import ProgressSpinner from 'primevue/progressspinner';
-import Message from 'primevue/message';
-	import Select from 'primevue/select';
-	import { useToast } from 'primevue/usetoast';
-	import { FilterMatchMode } from '@primevue/core/api';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../firebase';
+	<script setup>
+	import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+	import { useRouter } from 'vue-router';
+	import { useAppointmentStore } from '../stores/appointmentStore';
+	import dayjs from 'dayjs';
+	import * as XLSX from 'xlsx';
+	import Button from 'primevue/button';
+	import DatePicker from 'primevue/datepicker';
+	import DataTable from 'primevue/datatable';
+	import Column from 'primevue/column';
+		import InputText from 'primevue/inputtext';
+		import Textarea from 'primevue/textarea';
+	import ProgressSpinner from 'primevue/progressspinner';
+	import Message from 'primevue/message';
+		import Select from 'primevue/select';
+		import { useToast } from 'primevue/usetoast';
+		import { FilterMatchMode } from '@primevue/core/api';
+	import { collection, getDocs } from 'firebase/firestore';
+	import { db } from '../firebase';
 
 // Tooltip directive is registered globally in main.js
 
@@ -467,16 +482,51 @@ const formattedSelectedDate = computed(() => {
   return dayjs(store.selectedDate).format('dddd, MMMM D, YYYY');
 });
 
-// Computed filtered appointments - only filters based on snapshot
-const filteredAppointments = computed(() => {
-  // If no filters are active, show all appointments
-  if (!hasActiveFilters.value) {
-    return store.appointments;
-  }
+	// Computed filtered appointments - only filters based on snapshot
+	const filteredAppointments = computed(() => {
+	  // If no filters are active, show all appointments
+	  if (!hasActiveFilters.value) {
+	    return store.appointments;
+	  }
 
-  // Otherwise, only show appointments that were visible when filter was applied
-  return store.appointments.filter(apt => visibleAppointmentIds.value.has(apt.id));
-});
+	  // Otherwise, only show appointments that were visible when filter was applied
+	  return store.appointments.filter(apt => visibleAppointmentIds.value.has(apt.id));
+	});
+
+	// Export currently visible appointments to an Excel file
+	const exportAppointmentsToExcel = () => {
+	  const rows = filteredAppointments.value.map((apt, index) => ({
+	    '#': index + 1,
+	    Date: apt.date || store.selectedDate,
+	    Time: apt.time || '',
+	    Service: apt.service || '',
+	    CWA: apt.cwa ? 'Yes' : 'No',
+	    'Pt Name': apt.pt_name || '',
+	    RMSW: apt.rmsw || '',
+	    EA: apt.ea || '',
+	    'New/FU': apt.new_fu || '',
+	    Remarks: apt.remarks || '',
+	    'Last Edit': apt.last_edit || ''
+	  }));
+
+	  if (!rows.length) {
+	    toast.add({
+	      severity: 'info',
+	      summary: 'No Data',
+	      detail: 'There are no appointments to export for the current filters.',
+	      life: 3000
+	    });
+	    return;
+	  }
+
+	  const worksheet = XLSX.utils.json_to_sheet(rows);
+	  const workbook = XLSX.utils.book_new();
+	  XLSX.utils.book_append_sheet(workbook, worksheet, 'Appointments');
+
+	  const dateLabel = dayjs(store.selectedDate).format('YYYY-MM-DD');
+	  const fileName = `appointments_${dateLabel}.xlsx`;
+	  XLSX.writeFile(workbook, fileName);
+	};
 
 // Apply filters and create a snapshot of visible appointments
 const applyFilterSnapshot = () => {
@@ -1092,7 +1142,7 @@ onUnmounted(() => {
 
 .header:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 15px 40px rgba(37, 99, 235, 0.45);
 }
 
 .header::before {
@@ -1169,7 +1219,7 @@ onUnmounted(() => {
 }
 
 .selected-date h2 {
-  color: #2c3e50;
+	color: var(--app-text-main);
   font-size: 1.8rem;
   font-weight: 600;
   margin: 0;
