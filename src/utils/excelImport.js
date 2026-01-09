@@ -2,14 +2,24 @@ import * as XLSX from 'xlsx';
 import { collection, doc, setDoc, getDocs, deleteDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../firebase';
 import dayjs from 'dayjs';
-import { formatIdField, formatPhoneField } from './fieldFormatters';
 
-// Expected column headers
+// Expected column headers for new layout
+// A: Date, B: Time, C: Service, D: CWA, E: Pt Name, F: RMSW, G: EA, H: New/FU, I: Remarks
 const EXPECTED_HEADERS = [
-  'Date', 'Weekday', 'Time', 'Service', 
-  'Pt_name_1', 'ID_1', 'Phone_1', 
-  'Pt_name_2', 'ID_2', 'Phone_2', 'Remarks'
+	  'Date', 'Time', 'Service', 'CWA',
+	  'Pt Name', 'RMSW', 'EA', 'New/FU', 'Remarks'
 ];
+
+// Convert Excel decimal time (e.g. 0.375) to HH:mm string
+function excelDecimalToHHMM(excelTime) {
+	if (typeof excelTime !== 'number') {
+	  return excelTime;
+	}
+	const totalMinutes = Math.round(excelTime * 24 * 60);
+	const hours = Math.floor(totalMinutes / 60);
+	const minutes = totalMinutes % 60;
+	return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
 
 /**
  * Validate Excel file structure
@@ -110,8 +120,8 @@ export async function importExcelData(file, progressCallback) {
     const data = validation.data;
     progressCallback('File validated successfully');
 
-    let currentDate = '';
-    let currentWeekday = '';
+	    let currentDate = '';
+	    let currentWeekday = '';
     let importCount = 0;
     const totalRows = data.length - 1; // Exclude header
 
@@ -128,23 +138,21 @@ export async function importExcelData(file, progressCallback) {
         continue;
       }
 
-      // Update current date if cell is not empty
-      if (row[0]) {
-        const dateValue = row[0];
-        if (typeof dateValue === 'number') {
-          // Excel date serial number
-          const excelDate = XLSX.SSF.parse_date_code(dateValue);
-          currentDate = dayjs(new Date(excelDate.y, excelDate.m - 1, excelDate.d)).format('YYYY-MM-DD');
-        } else {
-          // String date
-          currentDate = dayjs(dateValue).format('YYYY-MM-DD');
-        }
-      }
+	      // Update current date if cell is not empty
+	      if (row[0]) {
+	        const dateValue = row[0];
+	        if (typeof dateValue === 'number') {
+	          // Excel date serial number
+	          const excelDate = XLSX.SSF.parse_date_code(dateValue);
+	          currentDate = dayjs(new Date(excelDate.y, excelDate.m - 1, excelDate.d)).format('YYYY-MM-DD');
+	        } else {
+	          // String date
+	          currentDate = dayjs(dateValue).format('YYYY-MM-DD');
+	        }
 
-      // Update current weekday if cell is not empty
-      if (row[1]) {
-        currentWeekday = row[1];
-      }
+	        // Derive weekday from date (e.g. "Monday")
+	        currentWeekday = dayjs(currentDate).format('dddd');
+	      }
 
       // Skip if we don't have a valid date yet
       if (!currentDate) {
@@ -154,29 +162,32 @@ export async function importExcelData(file, progressCallback) {
       // Track unique dates
       uniqueDates.add(currentDate);
 
-      // Convert time from Excel decimal to HH:mm format
-      let timeValue = row[2] || '';
-      if (typeof timeValue === 'number') {
-        const totalMinutes = Math.round(timeValue * 24 * 60);
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = totalMinutes % 60;
-        timeValue = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-      }
+	      // Convert time from Excel decimal to HH:mm format (column B)
+	      let timeValue = row[1] ?? '';
+	      if (typeof timeValue === 'number') {
+	        timeValue = excelDecimalToHHMM(timeValue);
+	      }
 
-      // Create appointment document with formatted ID and Phone fields
-      const appointment = {
-        date: currentDate,
-        weekday: currentWeekday || '',
-        time: timeValue,
-        service: row[3] || '',
-        pt_name_1: row[4] || '',
-        id_1: formatIdField(row[5] || ''),
-        phone_1: formatPhoneField(row[6] || ''),
-        pt_name_2: row[7] || '',
-        id_2: formatIdField(row[8] || ''),
-        phone_2: formatPhoneField(row[9] || ''),
-        remarks: row[10] || ''
-      };
+		    // Convert remarks if it is an Excel decimal time (Column I)
+		    let remarksValue = row[8] ?? '';
+		    if (typeof remarksValue === 'number') {
+		      remarksValue = excelDecimalToHHMM(remarksValue);
+		    }
+
+		      // Create appointment document using new column layout
+		      const rawCwa = row[3]; // Column D: CWA ("Y" or empty)
+		      const appointment = {
+		        date: currentDate,
+		        weekday: currentWeekday || '',
+		        time: timeValue,
+		        service: row[2] || '', // Column C: Service
+		        cwa: String(rawCwa).trim().toUpperCase() === 'Y',
+		        pt_name: row[4] || '', // Column E: Pt Name
+		        rmsw: row[5] || '',    // Column F: RMSW
+		        ea: row[6] || '',      // Column G: EA
+		        new_fu: row[7] || '',  // Column H: New/FU
+		        remarks: remarksValue  // Column I: Remarks (may be converted HH:mm)
+		      };
 
       appointments.push(appointment);
     }

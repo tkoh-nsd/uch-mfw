@@ -109,27 +109,26 @@ export const useAppointmentStore = defineStore('appointment', () => {
           const originalValuesKey = `original_${appointment.id}`;
           const storedOriginal = localStorage.getItem(originalValuesKey);
 
-          const updates = {
-            booked_by: deleteField(),
-            booked_at: deleteField()
-          };
+	          const updates = {
+	            booked_by: deleteField(),
+	            booked_at: deleteField()
+	          };
 
-          // If we have stored original values, restore them
-          if (storedOriginal && isOwnBooking) {
-            try {
-              const original = JSON.parse(storedOriginal);
-              updates.pt_name_1 = original.pt_name_1 || '';
-              updates.id_1 = original.id_1 || '';
-              updates.phone_1 = original.phone_1 || '';
-              updates.pt_name_2 = original.pt_name_2 || '';
-              updates.id_2 = original.id_2 || '';
-              updates.phone_2 = original.phone_2 || '';
-              updates.remarks = original.remarks || '';
-              console.log(`Restoring original values for auto-unlocked appointment: ${appointment.id}`);
-            } catch (e) {
-              console.error('Error parsing stored original values:', e);
-            }
-          }
+	          // If we have stored original values, restore them
+	          if (storedOriginal && isOwnBooking) {
+	            try {
+	              const original = JSON.parse(storedOriginal);
+	              updates.cwa = typeof original.cwa === 'boolean' ? original.cwa : !!original.cwa;
+	              updates.pt_name = original.pt_name || '';
+	              updates.rmsw = original.rmsw || '';
+	              updates.ea = original.ea || '';
+	              updates.new_fu = original.new_fu || '';
+	              updates.remarks = original.remarks || '';
+	              console.log(`Restoring original values for auto-unlocked appointment: ${appointment.id}`);
+	            } catch (e) {
+	              console.error('Error parsing stored original values:', e);
+	            }
+	          }
 
           await updateDoc(appointmentRef, updates);
 
@@ -230,17 +229,16 @@ export const useAppointmentStore = defineStore('appointment', () => {
               const existing = appointments.value[existingIndex];
 
               // Check if data actually changed (deep comparison of relevant fields)
-              const hasChanged =
-                existing.booked_by !== docData.booked_by ||
-                existing.booked_at !== docData.booked_at ||
-                existing.pt_name_1 !== docData.pt_name_1 ||
-                existing.id_1 !== docData.id_1 ||
-                existing.phone_1 !== docData.phone_1 ||
-                existing.pt_name_2 !== docData.pt_name_2 ||
-                existing.id_2 !== docData.id_2 ||
-                existing.phone_2 !== docData.phone_2 ||
-                existing.remarks !== docData.remarks ||
-                existing.last_edit !== docData.last_edit;
+	              const hasChanged =
+	                existing.booked_by !== docData.booked_by ||
+	                existing.booked_at !== docData.booked_at ||
+	                existing.cwa !== docData.cwa ||
+	                existing.pt_name !== docData.pt_name ||
+	                existing.rmsw !== docData.rmsw ||
+	                existing.ea !== docData.ea ||
+	                existing.new_fu !== docData.new_fu ||
+	                existing.remarks !== docData.remarks ||
+	                existing.last_edit !== docData.last_edit;
 
               if (hasChanged) {
                 // Only update if data actually changed
@@ -317,21 +315,20 @@ export const useAppointmentStore = defineStore('appointment', () => {
       // New structure: bookings/{date}/appointments/{appointmentId}
       const appointmentRef = doc(db, 'bookings', dateStr, 'appointments', appointmentId);
 
-      const updates = {
-        booked_by: deleteField(),
-        booked_at: deleteField()
-      };
+	      const updates = {
+	        booked_by: deleteField(),
+	        booked_at: deleteField()
+	      };
 
-      // If original values are provided, restore them
-      if (originalValues) {
-        updates.pt_name_1 = originalValues.pt_name_1 || '';
-        updates.id_1 = originalValues.id_1 || '';
-        updates.phone_1 = originalValues.phone_1 || '';
-        updates.pt_name_2 = originalValues.pt_name_2 || '';
-        updates.id_2 = originalValues.id_2 || '';
-        updates.phone_2 = originalValues.phone_2 || '';
-        updates.remarks = originalValues.remarks || '';
-      }
+	      // If original values are provided, restore them
+	      if (originalValues) {
+	        updates.cwa = typeof originalValues.cwa === 'boolean' ? originalValues.cwa : !!originalValues.cwa;
+	        updates.pt_name = originalValues.pt_name || '';
+	        updates.rmsw = originalValues.rmsw || '';
+	        updates.ea = originalValues.ea || '';
+	        updates.new_fu = originalValues.new_fu || '';
+	        updates.remarks = originalValues.remarks || '';
+	      }
 
       await updateDoc(appointmentRef, updates);
 

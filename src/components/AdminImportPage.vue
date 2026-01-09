@@ -66,7 +66,7 @@
           <div class="table-structure">
             <h3>📋 Expected Table Structure</h3>
             <p class="structure-description">
-              Your Excel file must have the following columns in this exact order:
+	              Your Excel file must have the following columns in this exact order:
             </p>
             
             <DataTable :value="tableStructure" class="structure-table">
@@ -79,11 +79,12 @@
             <div class="structure-notes">
               <h4>Important Notes:</h4>
               <ul>
-                <li>First row must contain column headers</li>
-                <li>Date format: YYYY-MM-DD (e.g., 2024-01-15)</li>
-                <li>Time format: HH:mm (e.g., 09:00, 14:30)</li>
-                <li>Empty date/weekday cells will use the most recent value above</li>
-                <li>All other fields can be empty strings</li>
+	                <li>First row must contain column headers</li>
+	                <li>Date format: YYYY-MM-DD (e.g., 2024-01-15) or Excel date</li>
+	                <li>Time format: HH:mm (e.g., 09:00, 14:30) or Excel time</li>
+	                <li>If a Date cell is empty, the last non-empty date above will be reused</li>
+	                <li>CWA: use "Y" for true; leave empty for false</li>
+	                <li>All other fields can be empty strings</li>
               </ul>
             </div>
           </div>
@@ -117,17 +118,15 @@ const importProgress = ref('');
 const validationResult = ref(null);
 
 const tableStructure = [
-  { column: 'A', name: 'Date', description: 'Appointment date', example: '2024-01-15' },
-  { column: 'B', name: 'Weekday', description: 'Day of the week', example: 'Monday' },
-  { column: 'C', name: 'Time', description: 'Appointment time', example: '09:00' },
-  { column: 'D', name: 'Service', description: 'Service type/Location', example: 'Room A' },
-  { column: 'E', name: 'Pt_name_1', description: 'Patient 1 name', example: 'John Doe' },
-  { column: 'F', name: 'ID_1', description: 'Patient 1 ID', example: 'A123456' },
-  { column: 'G', name: 'Phone_1', description: 'Patient 1 phone', example: '12345678' },
-  { column: 'H', name: 'Pt_name_2', description: 'Patient 2 name', example: 'Jane Smith' },
-  { column: 'I', name: 'ID_2', description: 'Patient 2 ID', example: 'B789012' },
-  { column: 'J', name: 'Phone_2', description: 'Patient 2 phone', example: '87654321' },
-  { column: 'K', name: 'Remarks', description: 'Additional notes', example: 'Follow-up' }
+	  { column: 'A', name: 'Date', description: 'Appointment date', example: '2024-01-15' },
+	  { column: 'B', name: 'Time', description: 'Appointment time', example: '09:00' },
+	  { column: 'C', name: 'Service', description: 'Service type/Location', example: 'MFW' },
+	  { column: 'D', name: 'CWA', description: '"Y" for CWA, leave empty otherwise', example: 'Y' },
+	  { column: 'E', name: 'Pt Name', description: 'Patient name', example: 'John Doe' },
+	  { column: 'F', name: 'RMSW', description: 'Responsible medical social worker', example: 'RMSW Name' },
+	  { column: 'G', name: 'EA', description: 'EA in charge (if any)', example: 'EA Name' },
+	  { column: 'H', name: 'New/FU', description: '"New" or "FU" (follow-up)', example: 'New' },
+	  { column: 'I', name: 'Remarks', description: 'Additional notes', example: 'Follow-up' }
 ];
 
 const goBack = () => {

@@ -3,6 +3,9 @@ import AppointmentView from '../components/AppointmentView.vue';
 import AdminPage from '../components/AdminPage.vue';
 import AdminImportPage from '../components/AdminImportPage.vue';
 import AdminAddDaysPage from '../components/AdminAddDaysPage.vue';
+import AdminMswListPage from '../components/AdminMswListPage.vue';
+import AdminEaListPage from '../components/AdminEaListPage.vue';
+import AdminPublicHolidaysPage from '../components/AdminPublicHolidaysPage.vue';
 
 const routes = [
   {
@@ -24,6 +27,21 @@ const routes = [
     path: '/admin/add-days',
     name: 'AdminAddDays',
     component: AdminAddDaysPage
+  },
+  {
+    path: '/admin/msw-list',
+    name: 'AdminMswList',
+    component: AdminMswListPage
+  },
+  {
+    path: '/admin/ea-list',
+    name: 'AdminEaList',
+    component: AdminEaListPage
+  },
+  {
+    path: '/admin/public-holidays',
+    name: 'AdminPublicHolidays',
+    component: AdminPublicHolidaysPage
   }
 ];
 

@@ -44,7 +44,7 @@ A real-time web application for managing medical appointments with multi-user su
 ## 📁 Project Structure
 
 ```
-tkoh-mfw/
+uch-mfw/
 ├── src/
 │   ├── components/
 │   │   └── AppointmentView.vue      # Main appointment interface

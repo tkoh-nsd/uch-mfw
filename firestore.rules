@@ -21,11 +21,29 @@ service cloud.firestore {
       allow write: if true; // For development - restrict in production
     }
 
+    // MSW list collection (for RMSW dropdown)
+    match /msw/{mswId} {
+      allow read, write: if true; // For development - restrict in production
+    }
+
+    // EA list collection (for EA dropdown)
+    match /ea/{eaId} {
+      allow read, write: if true; // For development - restrict in production
+    }
+
     // For production, use something like this instead:
     // match /bookings/{date}/appointments/{appointment} {
     //   allow read, write: if request.auth != null;
     // }
     // match /public_holidays/{date} {
+    //   allow read: if true;
+    //   allow write: if request.auth != null && request.auth.token.admin == true;
+    // }
+    // match /msw/{mswId} {
+    //   allow read: if true;
+    //   allow write: if request.auth != null && request.auth.token.admin == true;
+    // }
+    // match /ea/{eaId} {
     //   allow read: if true;
     //   allow write: if request.auth != null && request.auth.token.admin == true;
     // }

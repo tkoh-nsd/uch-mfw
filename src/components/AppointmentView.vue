@@ -48,280 +48,238 @@
     </div>
 
     <!-- Appointments Table -->
-    <div v-else-if="store.appointments.length > 0" class="appointments-table">
-      <DataTable
-        :value="filteredAppointments"
-        dataKey="id"
-        :scrollable="true"
-        scrollHeight="600px"
-        class="p-datatable-sm"
-        :rowClass="getRowClass"
-        filterDisplay="row"
-        sortMode="multiple"
-      >
-        <Column field="time" header="Time" :style="{ width: '90px' }" frozen sortable :showFilterMenu="false">
-          <template #body="slotProps">
-            <span class="readonly-field">{{ slotProps.data.time || '--' }}</span>
-          </template>
-          <template #filter>
-            <Select
-              v-model="filters.time.value"
-              @change="applyFilterSnapshot()"
-              :options="uniqueTimeValues"
-              placeholder="All"
-              class="p-column-filter"
-              :showClear="true"
-              @click.stop
-            />
-          </template>
-        </Column>
+	    <div v-else-if="store.appointments.length > 0" class="appointments-table">
+	      <DataTable
+	        :value="filteredAppointments"
+	        dataKey="id"
+	        :scrollable="true"
+	        scrollHeight="600px"
+	        class="p-datatable-sm"
+	        :rowClass="getRowClass"
+	        filterDisplay="row"
+	        sortMode="multiple"
+	      >
+	        <Column field="time" header="Time" :style="{ width: '90px' }" frozen sortable :showFilterMenu="false">
+	          <template #body="slotProps">
+	            <span class="readonly-field">{{ slotProps.data.time || '--' }}</span>
+	          </template>
+	          <template #filter>
+	            <Select
+	              v-model="filters.time.value"
+	              @change="applyFilterSnapshot()"
+	              :options="uniqueTimeValues"
+	              placeholder="All"
+	              class="p-column-filter"
+	              :showClear="true"
+	              @click.stop
+	            />
+	          </template>
+	        </Column>
 
-        <Column field="service" header="Service" :style="{ width: '140px' }" sortable :showFilterMenu="false">
-          <template #body="slotProps">
-            <span class="readonly-field">{{ slotProps.data.service || '--' }}</span>
-          </template>
-          <template #filter>
-            <Select
-              v-model="filters.service.value"
-              @change="applyFilterSnapshot()"
-              :options="uniqueServiceValues"
-              placeholder="All"
-              class="p-column-filter"
-              :showClear="true"
-              @click.stop
-            />
-          </template>
-        </Column>
+	        <Column field="service" header="Service" :style="{ width: '140px' }" sortable :showFilterMenu="false">
+	          <template #body="slotProps">
+	            <span class="readonly-field">{{ slotProps.data.service || '--' }}</span>
+	          </template>
+	          <template #filter>
+	            <Select
+	              v-model="filters.service.value"
+	              @change="applyFilterSnapshot()"
+	              :options="uniqueServiceValues"
+	              placeholder="All"
+	              class="p-column-filter"
+	              :showClear="true"
+	              @click.stop
+	            />
+	          </template>
+	        </Column>
 
-        <Column field="pt_name_1" header="Pt Name 1" :style="{ width: '200px' }" sortable :showFilterMenu="false">
-          <template #body="slotProps">
-            <InputText
-              v-model="slotProps.data.pt_name_1"
-              class="editable-input"
-              :disabled="!isEditableByCurrentUser(slotProps.data)"
-              @input="markAsEdited(slotProps.data.id)"
-              @focus="handleFieldFocus(slotProps.data.id, 'pt_name_1')"
-              @blur="handleFieldBlur(slotProps.data.id, 'pt_name_1')"
-              @click.stop
-            />
-          </template>
-          <template #filter>
-            <Select
-              v-model="filters.pt_name_1.value"
-              @change="applyFilterSnapshot()"
-              :options="uniquePtName1Values"
-              placeholder="All"
-              class="p-column-filter"
-              :showClear="true"
-              filter
-              :filterPlaceholder="'Search...'"
-              @click.stop
-            >
-              <template #value="slotProps">
-                <span v-if="slotProps.value === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.value || 'All' }}</span>
-              </template>
-              <template #option="slotProps">
-                <span v-if="slotProps.option === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.option }}</span>
-              </template>
-            </Select>
-          </template>
-        </Column>
+	        <Column field="cwa" header="CWA" :style="{ width: '80px' }" sortable :showFilterMenu="false">
+	          <template #body="slotProps">
+	            <div class="cwa-checkbox-wrapper">
+	              <input
+	                type="checkbox"
+	                :checked="!!slotProps.data.cwa"
+	                :disabled="!isEditableByCurrentUser(slotProps.data)"
+	                @change="(e) => { slotProps.data.cwa = e.target.checked; markAsEdited(slotProps.data.id); }"
+	                @click.stop
+	              />
+	            </div>
+	          </template>
+	          <template #filter>
+	            <Select
+	              v-model="filters.cwa.value"
+	              @change="applyFilterSnapshot()"
+	              :options="cwaFilterOptions"
+	              placeholder="All"
+	              class="p-column-filter"
+	              :showClear="true"
+	              @click.stop
+	            />
+	          </template>
+	        </Column>
 
-        <Column field="id_1" header="ID 1" :style="{ width: '160px' }" sortable :showFilterMenu="false">
-          <template #body="slotProps">
-            <input
-              type="text"
-              :value="slotProps.data.id_1"
-              @input="(e) => handleIdInput(slotProps.data, 'id_1', e)"
-              @focus="handleFieldFocus(slotProps.data.id, 'id_1')"
-              @blur="handleFieldBlur(slotProps.data.id, 'id_1')"
-              @click.stop
-              class="p-inputtext p-component editable-input"
-              :class="{ 'p-invalid': fieldErrors[`${slotProps.data.id}_id_1`] }"
-              :disabled="!isEditableByCurrentUser(slotProps.data)"
-              v-tooltip.top="fieldErrors[`${slotProps.data.id}_id_1`] ? 'ID format: Maximum 2 letters (A-Z) + 3 digits (0-9)' : ''"
-            />
-          </template>
-          <template #filter>
-            <Select
-              v-model="filters.id_1.value"
-              @change="applyFilterSnapshot()"
-              :options="uniqueId1Values"
-              placeholder="All"
-              class="p-column-filter"
-              :showClear="true"
-              filter
-              :filterPlaceholder="'Search...'"
-              @click.stop
-            >
-              <template #value="slotProps">
-                <span v-if="slotProps.value === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.value || 'All' }}</span>
-              </template>
-              <template #option="slotProps">
-                <span v-if="slotProps.option === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.option }}</span>
-              </template>
-            </Select>
-          </template>
-        </Column>
+	        <Column field="pt_name" header="Pt Name" :style="{ width: '200px' }" sortable :showFilterMenu="false">
+	          <template #body="slotProps">
+	            <InputText
+	              v-model="slotProps.data.pt_name"
+	              class="editable-input"
+	              :disabled="!isEditableByCurrentUser(slotProps.data)"
+	              @input="markAsEdited(slotProps.data.id)"
+	              @focus="handleFieldFocus(slotProps.data.id, 'pt_name')"
+	              @blur="handleFieldBlur(slotProps.data.id, 'pt_name')"
+	              @click.stop
+	            />
+	          </template>
+	          <template #filter>
+	            <Select
+	              v-model="filters.pt_name.value"
+	              @change="applyFilterSnapshot()"
+	              :options="uniquePtNameValues"
+	              placeholder="All"
+	              class="p-column-filter"
+	              :showClear="true"
+	              filter
+	              :filterPlaceholder="'Search...'"
+	              @click.stop
+	            >
+	              <template #value="slotProps">
+	                <span v-if="slotProps.value === ''" class="empty-option">(Empty)</span>
+	                <span v-else>{{ slotProps.value || 'All' }}</span>
+	              </template>
+	              <template #option="slotProps">
+	                <span v-if="slotProps.option === ''" class="empty-option">(Empty)</span>
+	                <span v-else>{{ slotProps.option }}</span>
+	              </template>
+	            </Select>
+	          </template>
+	        </Column>
 
-        <Column field="phone_1" header="Phone 1" :style="{ width: '160px' }" sortable :showFilterMenu="false">
-          <template #body="slotProps">
-            <input
-              type="text"
-              :value="slotProps.data.phone_1"
-              @input="(e) => handlePhoneInput(slotProps.data, 'phone_1', e)"
-              @focus="handleFieldFocus(slotProps.data.id, 'phone_1')"
-              @blur="handleFieldBlur(slotProps.data.id, 'phone_1')"
-              @click.stop
-              class="p-inputtext p-component editable-input"
-              :class="{ 'p-invalid': fieldErrors[`${slotProps.data.id}_phone_1`] }"
-              :disabled="!isEditableByCurrentUser(slotProps.data)"
-              v-tooltip.top="fieldErrors[`${slotProps.data.id}_phone_1`] ? 'Phone format: Maximum 4 digits (0-9)' : ''"
-            />
-          </template>
-          <template #filter>
-            <Select
-              v-model="filters.phone_1.value"
-              @change="applyFilterSnapshot()"
-              :options="uniquePhone1Values"
-              placeholder="All"
-              class="p-column-filter"
-              :showClear="true"
-              filter
-              :filterPlaceholder="'Search...'"
-              @click.stop
-            >
-              <template #value="slotProps">
-                <span v-if="slotProps.value === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.value || 'All' }}</span>
-              </template>
-              <template #option="slotProps">
-                <span v-if="slotProps.option === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.option }}</span>
-              </template>
-            </Select>
-          </template>
-        </Column>
+	        <Column field="rmsw" header="RMSW" :style="{ width: '160px' }" sortable :showFilterMenu="false">
+	          <template #body="slotProps">
+	            <Select
+	              v-model="slotProps.data.rmsw"
+	              :options="rmswDropdownOptions"
+	              class="editable-input"
+	              :disabled="!isEditableByCurrentUser(slotProps.data)"
+	              @change="markAsEdited(slotProps.data.id)"
+	              @focus="handleFieldFocus(slotProps.data.id, 'rmsw')"
+	              @blur="handleFieldBlur(slotProps.data.id, 'rmsw')"
+	              @click.stop
+	              placeholder="--"
+	              filter
+	              :filterPlaceholder="'Search...'"
+	            />
+	          </template>
+	          <template #filter>
+	            <Select
+	              v-model="filters.rmsw.value"
+	              @change="applyFilterSnapshot()"
+	              :options="uniqueRmswValues"
+	              placeholder="All"
+	              class="p-column-filter"
+	              :showClear="true"
+	              filter
+	              :filterPlaceholder="'Search...'"
+	              @click.stop
+	            >
+	              <template #value="slotProps">
+	                <span v-if="slotProps.value === ''" class="empty-option">(Empty)</span>
+	                <span v-else>{{ slotProps.value || 'All' }}</span>
+	              </template>
+	              <template #option="slotProps">
+	                <span v-if="slotProps.option === ''" class="empty-option">(Empty)</span>
+	                <span v-else>{{ slotProps.option }}</span>
+	              </template>
+	            </Select>
+	          </template>
+	        </Column>
 
-        <Column field="pt_name_2" header="Pt Name 2" :style="{ width: '200px' }" sortable :showFilterMenu="false">
-          <template #body="slotProps">
-            <InputText
-              v-model="slotProps.data.pt_name_2"
-              class="editable-input"
-              :disabled="!isEditableByCurrentUser(slotProps.data)"
-              @input="markAsEdited(slotProps.data.id)"
-              @focus="handleFieldFocus(slotProps.data.id, 'pt_name_2')"
-              @blur="handleFieldBlur(slotProps.data.id, 'pt_name_2')"
-              @click.stop
-            />
-          </template>
-          <template #filter>
-            <Select
-              v-model="filters.pt_name_2.value"
-              @change="applyFilterSnapshot()"
-              :options="uniquePtName2Values"
-              placeholder="All"
-              class="p-column-filter"
-              :showClear="true"
-              filter
-              :filterPlaceholder="'Search...'"
-              @click.stop
-            >
-              <template #value="slotProps">
-                <span v-if="slotProps.value === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.value || 'All' }}</span>
-              </template>
-              <template #option="slotProps">
-                <span v-if="slotProps.option === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.option }}</span>
-              </template>
-            </Select>
-          </template>
-        </Column>
+	        <Column field="ea" header="EA" :style="{ width: '160px' }" sortable :showFilterMenu="false">
+	          <template #body="slotProps">
+	            <Select
+	              v-model="slotProps.data.ea"
+	              :options="eaDropdownOptions"
+	              class="editable-input"
+	              :disabled="!isEditableByCurrentUser(slotProps.data)"
+	              @change="markAsEdited(slotProps.data.id)"
+	              @focus="handleFieldFocus(slotProps.data.id, 'ea')"
+	              @blur="handleFieldBlur(slotProps.data.id, 'ea')"
+	              @click.stop
+	              placeholder="--"
+	              filter
+	              :filterPlaceholder="'Search...'"
+	            />
+	          </template>
+	          <template #filter>
+	            <Select
+	              v-model="filters.ea.value"
+	              @change="applyFilterSnapshot()"
+	              :options="uniqueEaValues"
+	              placeholder="All"
+	              class="p-column-filter"
+	              :showClear="true"
+	              filter
+	              :filterPlaceholder="'Search...'"
+	              @click.stop
+	            >
+	              <template #value="slotProps">
+	                <span v-if="slotProps.value === ''" class="empty-option">(Empty)</span>
+	                <span v-else>{{ slotProps.value || 'All' }}</span>
+	              </template>
+	              <template #option="slotProps">
+	                <span v-if="slotProps.option === ''" class="empty-option">(Empty)</span>
+	                <span v-else>{{ slotProps.option }}</span>
+	              </template>
+	            </Select>
+	          </template>
+	        </Column>
 
-        <Column field="id_2" header="ID 2" :style="{ width: '160px' }" sortable :showFilterMenu="false">
-          <template #body="slotProps">
-            <input
-              type="text"
-              :value="slotProps.data.id_2"
-              @input="(e) => handleIdInput(slotProps.data, 'id_2', e)"
-              @focus="handleFieldFocus(slotProps.data.id, 'id_2')"
-              @blur="handleFieldBlur(slotProps.data.id, 'id_2')"
-              @click.stop
-              class="p-inputtext p-component editable-input"
-              :class="{ 'p-invalid': fieldErrors[`${slotProps.data.id}_id_2`] }"
-              :disabled="!isEditableByCurrentUser(slotProps.data)"
-              v-tooltip.top="fieldErrors[`${slotProps.data.id}_id_2`] ? 'ID format: Maximum 2 letters (A-Z) + 3 digits (0-9)' : ''"
-            />
-          </template>
-          <template #filter>
-            <Select
-              v-model="filters.id_2.value"
-              @change="applyFilterSnapshot()"
-              :options="uniqueId2Values"
-              placeholder="All"
-              class="p-column-filter"
-              :showClear="true"
-              filter
-              :filterPlaceholder="'Search...'"
-              @click.stop
-            >
-              <template #value="slotProps">
-                <span v-if="slotProps.value === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.value || 'All' }}</span>
-              </template>
-              <template #option="slotProps">
-                <span v-if="slotProps.option === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.option }}</span>
-              </template>
-            </Select>
-          </template>
-        </Column>
+	        <Column field="new_fu" header="New/FU" :style="{ width: '160px' }" sortable :showFilterMenu="false">
+	          <template #body="slotProps">
+	            <div class="newfu-toggle">
+	              <Button
+	                label="New"
+	                size="small"
+	                class="newfu-button"
+	                :class="{ 'newfu-button--new-active': isNewValue(slotProps.data.new_fu) }"
+	                :disabled="!isEditableByCurrentUser(slotProps.data)"
+	                @click.stop.prevent="() => { slotProps.data.new_fu = 'New'; markAsEdited(slotProps.data.id); }"
+	              />
+	              <Button
+	                label="FU"
+	                size="small"
+	                class="newfu-button"
+	                :class="{ 'newfu-button--fu-active': isFuValue(slotProps.data.new_fu) }"
+	                :disabled="!isEditableByCurrentUser(slotProps.data)"
+	                @click.stop.prevent="() => { slotProps.data.new_fu = 'FU'; markAsEdited(slotProps.data.id); }"
+	              />
+	            </div>
+	          </template>
+	          <template #filter>
+	            <Select
+	              v-model="filters.new_fu.value"
+	              @change="applyFilterSnapshot()"
+	              :options="uniqueNewFuValues"
+	              placeholder="All"
+	              class="p-column-filter"
+	              :showClear="true"
+	              filter
+	              :filterPlaceholder="'Search...'"
+	              @click.stop
+	            >
+	              <template #value="slotProps">
+	                <span v-if="slotProps.value === ''" class="empty-option">(Empty)</span>
+	                <span v-else>{{ slotProps.value || 'All' }}</span>
+	              </template>
+	              <template #option="slotProps">
+	                <span v-if="slotProps.option === ''" class="empty-option">(Empty)</span>
+	                <span v-else>{{ slotProps.option }}</span>
+	              </template>
+	            </Select>
+	          </template>
+	        </Column>
 
-        <Column field="phone_2" header="Phone 2" :style="{ width: '160px' }" sortable :showFilterMenu="false">
-          <template #body="slotProps">
-            <input
-              type="text"
-              :value="slotProps.data.phone_2"
-              @input="(e) => handlePhoneInput(slotProps.data, 'phone_2', e)"
-              @focus="handleFieldFocus(slotProps.data.id, 'phone_2')"
-              @blur="handleFieldBlur(slotProps.data.id, 'phone_2')"
-              @click.stop
-              class="p-inputtext p-component editable-input"
-              :class="{ 'p-invalid': fieldErrors[`${slotProps.data.id}_phone_2`] }"
-              :disabled="!isEditableByCurrentUser(slotProps.data)"
-              v-tooltip.top="fieldErrors[`${slotProps.data.id}_phone_2`] ? 'Phone format: Maximum 4 digits (0-9)' : ''"
-            />
-          </template>
-          <template #filter>
-            <Select
-              v-model="filters.phone_2.value"
-              @change="applyFilterSnapshot()"
-              :options="uniquePhone2Values"
-              placeholder="All"
-              class="p-column-filter"
-              :showClear="true"
-              filter
-              :filterPlaceholder="'Search...'"
-              @click.stop
-            >
-              <template #value="slotProps">
-                <span v-if="slotProps.value === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.value || 'All' }}</span>
-              </template>
-              <template #option="slotProps">
-                <span v-if="slotProps.option === ''" class="empty-option">(Empty)</span>
-                <span v-else>{{ slotProps.option }}</span>
-              </template>
-            </Select>
-          </template>
-        </Column>
-
-        <Column field="remarks" header="Remarks" :style="{ width: '280px' }" sortable :showFilterMenu="false">
+	        <Column field="remarks" header="Remarks" :style="{ width: '280px' }" sortable :showFilterMenu="false">
           <template #body="slotProps">
             <Textarea
               v-model="slotProps.data.remarks"
@@ -434,14 +392,13 @@ import Button from 'primevue/button';
 import DatePicker from 'primevue/datepicker';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import InputText from 'primevue/inputtext';
-import Textarea from 'primevue/textarea';
+	import InputText from 'primevue/inputtext';
+	import Textarea from 'primevue/textarea';
 import ProgressSpinner from 'primevue/progressspinner';
 import Message from 'primevue/message';
-import Select from 'primevue/select';
-import { useToast } from 'primevue/usetoast';
-import { FilterMatchMode } from '@primevue/core/api';
-import { formatIdField, formatPhoneField } from '../utils/fieldFormatters';
+	import Select from 'primevue/select';
+	import { useToast } from 'primevue/usetoast';
+	import { FilterMatchMode } from '@primevue/core/api';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -469,31 +426,41 @@ const focusedField = ref(null); // Format: "appointmentId_fieldName"
 // Track last activity time for each appointment (for smart auto-unlock)
 const lastActivityTime = ref(new Map()); // appointmentId -> timestamp
 
-// Track fields with format errors for tooltip display
-const fieldErrors = ref({});
-
 // Track which appointment IDs should be visible based on filter snapshot
 const visibleAppointmentIds = ref(new Set());
 // Track whether any filters are active
 const hasActiveFilters = ref(false);
 
 // Initialize filters for DataTable
-const filters = ref({
-  time: { value: null, matchMode: FilterMatchMode.EQUALS },
-  service: { value: null, matchMode: FilterMatchMode.EQUALS },
-  pt_name_1: { value: null, matchMode: 'customEquals' },
-  id_1: { value: null, matchMode: 'customEquals' },
-  phone_1: { value: null, matchMode: 'customEquals' },
-  pt_name_2: { value: null, matchMode: 'customEquals' },
-  id_2: { value: null, matchMode: 'customEquals' },
-  phone_2: { value: null, matchMode: 'customEquals' },
-  remarks: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  last_edit: { value: null, matchMode: 'customEquals' }
-});
+	const filters = ref({
+	  time: { value: null, matchMode: FilterMatchMode.EQUALS },
+	  service: { value: null, matchMode: FilterMatchMode.EQUALS },
+	  cwa: { value: null, matchMode: 'customEquals' },
+	  pt_name: { value: null, matchMode: 'customEquals' },
+	  rmsw: { value: null, matchMode: 'customEquals' },
+	  ea: { value: null, matchMode: 'customEquals' },
+	  new_fu: { value: null, matchMode: 'customEquals' },
+	  remarks: { value: null, matchMode: FilterMatchMode.CONTAINS },
+	  last_edit: { value: null, matchMode: 'customEquals' }
+	});
+
+	// Options for CWA filter
+	const cwaFilterOptions = ['Yes', 'No'];
 
 // Public holidays and disabled dates
 const publicHolidays = ref([]);
 const disabledDates = ref([]);
+
+// MSW and EA lists for dropdowns
+const mswList = ref([]);
+const eaList = ref([]);
+
+// Helpers for case-insensitive handling of New/FU values
+const normalizeNewFu = (value) =>
+	typeof value === 'string' ? value.trim().toLowerCase() : '';
+
+const isNewValue = (value) => normalizeNewFu(value) === 'new';
+const isFuValue = (value) => normalizeNewFu(value) === 'fu';
 
 // Computed formatted date
 const formattedSelectedDate = computed(() => {
@@ -514,17 +481,16 @@ const filteredAppointments = computed(() => {
 // Apply filters and create a snapshot of visible appointments
 const applyFilterSnapshot = () => {
   // Check if any filters are active
-  const anyFilterActive =
-    (filters.value.time.value !== null && filters.value.time.value !== undefined) ||
-    (filters.value.service.value !== null && filters.value.service.value !== undefined) ||
-    (filters.value.pt_name_1.value !== null && filters.value.pt_name_1.value !== undefined) ||
-    (filters.value.id_1.value !== null && filters.value.id_1.value !== undefined) ||
-    (filters.value.phone_1.value !== null && filters.value.phone_1.value !== undefined) ||
-    (filters.value.pt_name_2.value !== null && filters.value.pt_name_2.value !== undefined) ||
-    (filters.value.id_2.value !== null && filters.value.id_2.value !== undefined) ||
-    (filters.value.phone_2.value !== null && filters.value.phone_2.value !== undefined) ||
-    (filters.value.remarks.value !== null && filters.value.remarks.value !== undefined && filters.value.remarks.value !== '') ||
-    (filters.value.last_edit.value !== null && filters.value.last_edit.value !== undefined);
+	  const anyFilterActive =
+	    (filters.value.time.value !== null && filters.value.time.value !== undefined) ||
+	    (filters.value.service.value !== null && filters.value.service.value !== undefined) ||
+	    (filters.value.cwa.value !== null && filters.value.cwa.value !== undefined) ||
+	    (filters.value.pt_name.value !== null && filters.value.pt_name.value !== undefined) ||
+	    (filters.value.rmsw.value !== null && filters.value.rmsw.value !== undefined) ||
+	    (filters.value.ea.value !== null && filters.value.ea.value !== undefined) ||
+	    (filters.value.new_fu.value !== null && filters.value.new_fu.value !== undefined) ||
+	    (filters.value.remarks.value !== null && filters.value.remarks.value !== undefined && filters.value.remarks.value !== '') ||
+	    (filters.value.last_edit.value !== null && filters.value.last_edit.value !== undefined);
 
   hasActiveFilters.value = anyFilterActive;
 
@@ -540,76 +506,62 @@ const applyFilterSnapshot = () => {
       if (appointment.time !== filters.value.time.value) return false;
     }
 
-    // Check service filter
-    if (filters.value.service.value !== null && filters.value.service.value !== undefined) {
-      if (appointment.service !== filters.value.service.value) return false;
-    }
+	    // Check service filter
+	    if (filters.value.service.value !== null && filters.value.service.value !== undefined) {
+	      if (appointment.service !== filters.value.service.value) return false;
+	    }
 
-    // Check pt_name_1 filter
-    if (filters.value.pt_name_1.value !== null && filters.value.pt_name_1.value !== undefined) {
-      const value = appointment.pt_name_1;
-      const filterValue = filters.value.pt_name_1.value;
-      if (filterValue === '') {
-        if (value && value.trim() !== '') return false;
-      } else {
-        if (value !== filterValue) return false;
-      }
-    }
+	    // Check CWA filter
+	    if (filters.value.cwa.value !== null && filters.value.cwa.value !== undefined) {
+	      const filterValue = filters.value.cwa.value; // 'Yes' or 'No'
+	      const value = !!appointment.cwa;
+	      if (filterValue === 'Yes' && !value) return false;
+	      if (filterValue === 'No' && value) return false;
+	    }
 
-    // Check id_1 filter
-    if (filters.value.id_1.value !== null && filters.value.id_1.value !== undefined) {
-      const value = appointment.id_1;
-      const filterValue = filters.value.id_1.value;
-      if (filterValue === '') {
-        if (value && value.trim() !== '') return false;
-      } else {
-        if (value !== filterValue) return false;
-      }
-    }
+	    // Check pt_name filter
+	    if (filters.value.pt_name.value !== null && filters.value.pt_name.value !== undefined) {
+	      const value = appointment.pt_name;
+	      const filterValue = filters.value.pt_name.value;
+	      if (filterValue === '') {
+	        if (value && value.trim() !== '') return false;
+	      } else {
+	        if (value !== filterValue) return false;
+	      }
+	    }
 
-    // Check phone_1 filter
-    if (filters.value.phone_1.value !== null && filters.value.phone_1.value !== undefined) {
-      const value = appointment.phone_1;
-      const filterValue = filters.value.phone_1.value;
-      if (filterValue === '') {
-        if (value && value.trim() !== '') return false;
-      } else {
-        if (value !== filterValue) return false;
-      }
-    }
+	    // Check rmsw filter
+	    if (filters.value.rmsw.value !== null && filters.value.rmsw.value !== undefined) {
+	      const value = appointment.rmsw;
+	      const filterValue = filters.value.rmsw.value;
+	      if (filterValue === '') {
+	        if (value && value.trim() !== '') return false;
+	      } else {
+	        if (value !== filterValue) return false;
+	      }
+	    }
 
-    // Check pt_name_2 filter
-    if (filters.value.pt_name_2.value !== null && filters.value.pt_name_2.value !== undefined) {
-      const value = appointment.pt_name_2;
-      const filterValue = filters.value.pt_name_2.value;
-      if (filterValue === '') {
-        if (value && value.trim() !== '') return false;
-      } else {
-        if (value !== filterValue) return false;
-      }
-    }
+	    // Check ea filter
+	    if (filters.value.ea.value !== null && filters.value.ea.value !== undefined) {
+	      const value = appointment.ea;
+	      const filterValue = filters.value.ea.value;
+	      if (filterValue === '') {
+	        if (value && value.trim() !== '') return false;
+	      } else {
+	        if (value !== filterValue) return false;
+	      }
+	    }
 
-    // Check id_2 filter
-    if (filters.value.id_2.value !== null && filters.value.id_2.value !== undefined) {
-      const value = appointment.id_2;
-      const filterValue = filters.value.id_2.value;
-      if (filterValue === '') {
-        if (value && value.trim() !== '') return false;
-      } else {
-        if (value !== filterValue) return false;
-      }
-    }
-
-    // Check phone_2 filter
-    if (filters.value.phone_2.value !== null && filters.value.phone_2.value !== undefined) {
-      const value = appointment.phone_2;
-      const filterValue = filters.value.phone_2.value;
-      if (filterValue === '') {
-        if (value && value.trim() !== '') return false;
-      } else {
-        if (value !== filterValue) return false;
-      }
-    }
+	    // Check new_fu filter
+	    if (filters.value.new_fu.value !== null && filters.value.new_fu.value !== undefined) {
+	      const value = appointment.new_fu;
+	      const filterValue = filters.value.new_fu.value;
+	      if (filterValue === '') {
+	        if (value && value.trim() !== '') return false;
+	      } else {
+	        if (value !== filterValue) return false;
+	      }
+	    }
 
     // Check remarks filter (contains)
     if (filters.value.remarks.value !== null && filters.value.remarks.value !== undefined && filters.value.remarks.value !== '') {
@@ -652,77 +604,53 @@ const uniqueServiceValues = computed(() => {
   return [...new Set(services)].sort();
 });
 
-// Get unique patient name 1 values for dropdown filter
-const uniquePtName1Values = computed(() => {
-  const names = store.appointments
-    .map(apt => apt.pt_name_1)
-    .filter(name => name && name.trim() !== '');
-  return ['', ...new Set(names)].sort((a, b) => {
-    if (a === '') return -1;
-    if (b === '') return 1;
-    return a.localeCompare(b);
-  });
-});
+	// Get unique Pt Name values for dropdown filter
+	const uniquePtNameValues = computed(() => {
+	  const names = store.appointments
+	    .map(apt => apt.pt_name)
+	    .filter(name => name && name.trim() !== '');
+	  return ['', ...new Set(names)].sort((a, b) => {
+	    if (a === '') return -1;
+	    if (b === '') return 1;
+	    return a.localeCompare(b);
+	  });
+	});
 
-// Get unique ID 1 values for dropdown filter
-const uniqueId1Values = computed(() => {
-  const ids = store.appointments
-    .map(apt => apt.id_1)
-    .filter(id => id && id.trim() !== '');
-  return ['', ...new Set(ids)].sort((a, b) => {
-    if (a === '') return -1;
-    if (b === '') return 1;
-    return a.localeCompare(b);
-  });
-});
+	// Get unique RMSW values for dropdown filter
+	const uniqueRmswValues = computed(() => {
+	  const values = store.appointments
+	    .map(apt => apt.rmsw)
+	    .filter(v => v && v.trim() !== '');
+	  return ['', ...new Set(values)].sort((a, b) => {
+	    if (a === '') return -1;
+	    if (b === '') return 1;
+	    return a.localeCompare(b);
+	  });
+	});
 
-// Get unique phone 1 values for dropdown filter
-const uniquePhone1Values = computed(() => {
-  const phones = store.appointments
-    .map(apt => apt.phone_1)
-    .filter(phone => phone && phone.trim() !== '');
-  return ['', ...new Set(phones)].sort((a, b) => {
-    if (a === '') return -1;
-    if (b === '') return 1;
-    return a.localeCompare(b);
-  });
-});
+	// Get unique EA values for dropdown filter
+	const uniqueEaValues = computed(() => {
+	  const values = store.appointments
+	    .map(apt => apt.ea)
+	    .filter(v => v && v.trim() !== '');
+	  return ['', ...new Set(values)].sort((a, b) => {
+	    if (a === '') return -1;
+	    if (b === '') return 1;
+	    return a.localeCompare(b);
+	  });
+	});
 
-// Get unique patient name 2 values for dropdown filter
-const uniquePtName2Values = computed(() => {
-  const names = store.appointments
-    .map(apt => apt.pt_name_2)
-    .filter(name => name && name.trim() !== '');
-  return ['', ...new Set(names)].sort((a, b) => {
-    if (a === '') return -1;
-    if (b === '') return 1;
-    return a.localeCompare(b);
-  });
-});
-
-// Get unique ID 2 values for dropdown filter
-const uniqueId2Values = computed(() => {
-  const ids = store.appointments
-    .map(apt => apt.id_2)
-    .filter(id => id && id.trim() !== '');
-  return ['', ...new Set(ids)].sort((a, b) => {
-    if (a === '') return -1;
-    if (b === '') return 1;
-    return a.localeCompare(b);
-  });
-});
-
-// Get unique phone 2 values for dropdown filter
-const uniquePhone2Values = computed(() => {
-  const phones = store.appointments
-    .map(apt => apt.phone_2)
-    .filter(phone => phone && phone.trim() !== '');
-  return ['', ...new Set(phones)].sort((a, b) => {
-    if (a === '') return -1;
-    if (b === '') return 1;
-    return a.localeCompare(b);
-  });
-});
+	// Get unique New/FU values for dropdown filter
+	const uniqueNewFuValues = computed(() => {
+	  const values = store.appointments
+	    .map(apt => apt.new_fu)
+	    .filter(v => v && v.trim() !== '');
+	  return ['', ...new Set(values)].sort((a, b) => {
+	    if (a === '') return -1;
+	    if (b === '') return 1;
+	    return a.localeCompare(b);
+	  });
+	});
 
 // Get unique last edit values for dropdown filter
 const uniqueLastEditValues = computed(() => {
@@ -792,6 +720,50 @@ const fetchPublicHolidays = async () => {
     console.error('Error fetching public holidays:', error);
   }
 };
+
+// Fetch MSW list from Firestore
+const fetchMswList = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'msw'));
+    const list = [];
+    querySnapshot.forEach((doc) => {
+      list.push(doc.data().name);
+    });
+    mswList.value = list.sort();
+    console.log(`Loaded ${mswList.value.length} MSW entries for dropdown`);
+  } catch (error) {
+    console.error('Error fetching MSW list:', error);
+    // Set empty list on error so dropdown still works with just '--'
+    mswList.value = [];
+  }
+};
+
+// Fetch EA list from Firestore
+const fetchEaList = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'ea'));
+    const list = [];
+    querySnapshot.forEach((doc) => {
+      list.push(doc.data().name);
+    });
+    eaList.value = list.sort();
+    console.log(`Loaded ${eaList.value.length} EA entries for dropdown`);
+  } catch (error) {
+    console.error('Error fetching EA list:', error);
+    // Set empty list on error so dropdown still works with just '--'
+    eaList.value = [];
+  }
+};
+
+// Computed dropdown options for RMSW (with '--' as first option)
+const rmswDropdownOptions = computed(() => {
+  return ['--', ...mswList.value];
+});
+
+// Computed dropdown options for EA (with '--' as first option)
+const eaDropdownOptions = computed(() => {
+  return ['--', ...eaList.value];
+});
 
 // Generate disabled dates (Saturdays, Sundays, and public holidays)
 const generateDisabledDates = () => {
@@ -869,89 +841,7 @@ const getLastActivityTime = (appointmentId) => {
   return lastActivityTime.value.get(appointmentId) || null;
 };
 
-// Handle ID field input with auto-formatting (real-time on keystroke)
-const handleIdInput = (appointment, field, event) => {
-  const input = event.target;
-  const cursorPos = input.selectionStart;
-  const newValue = input.value;
-
-  // Apply formatting - extracts valid characters and trims to format
-  const formattedValue = formatIdField(newValue);
-
-  // Track error state for tooltip
-  const errorKey = `${appointment.id}_${field}`;
-
-  // Check if the user exceeded the limit or entered invalid characters
-  if (newValue.length > formattedValue.length || newValue !== formattedValue) {
-    // Set error state to show tooltip
-    fieldErrors.value[errorKey] = true;
-
-    // Clear error after 3 seconds
-    setTimeout(() => {
-      fieldErrors.value[errorKey] = false;
-    }, 3000);
-  } else {
-    // Clear error immediately if input is valid
-    fieldErrors.value[errorKey] = false;
-  }
-
-  // Update the appointment in the store
-  const appt = store.appointments.find(a => a.id === appointment.id);
-  if (appt) {
-    appt[field] = formattedValue;
-  }
-
-  // Update the input element's value directly
-  input.value = formattedValue;
-
-  // Restore cursor position (at the end if value was trimmed)
-  const newCursorPos = Math.min(cursorPos, formattedValue.length);
-  input.setSelectionRange(newCursorPos, newCursorPos);
-
-  markAsEdited(appointment.id);
-};
-
-// Handle Phone field input with auto-formatting (real-time on keystroke)
-const handlePhoneInput = (appointment, field, event) => {
-  const input = event.target;
-  const cursorPos = input.selectionStart;
-  const newValue = input.value;
-
-  // Apply formatting - extracts valid characters and trims to format
-  const formattedValue = formatPhoneField(newValue);
-
-  // Track error state for tooltip
-  const errorKey = `${appointment.id}_${field}`;
-
-  // Check if the user exceeded the limit or entered invalid characters
-  if (newValue.length > formattedValue.length || newValue !== formattedValue) {
-    // Set error state to show tooltip
-    fieldErrors.value[errorKey] = true;
-
-    // Clear error after 3 seconds
-    setTimeout(() => {
-      fieldErrors.value[errorKey] = false;
-    }, 3000);
-  } else {
-    // Clear error immediately if input is valid
-    fieldErrors.value[errorKey] = false;
-  }
-
-  // Update the appointment in the store
-  const appt = store.appointments.find(a => a.id === appointment.id);
-  if (appt) {
-    appt[field] = formattedValue;
-  }
-
-  // Update the input element's value directly
-  input.value = formattedValue;
-
-  // Restore cursor position (at the end if value was trimmed)
-  const newCursorPos = Math.min(cursorPos, formattedValue.length);
-  input.setSelectionRange(newCursorPos, newCursorPos);
-
-  markAsEdited(appointment.id);
-};
+	// ID/Phone fields have been removed in the new layout, so no special formatters are needed.
 
 // Book appointment
 const bookAppointment = async (appointment) => {
@@ -987,15 +877,14 @@ const bookAppointment = async (appointment) => {
       console.log(`Activity time initialized for ${appointment.id}`);
 
       // Save original values for cancel functionality
-      const original = {
-        pt_name_1: appointment.pt_name_1,
-        id_1: appointment.id_1,
-        phone_1: appointment.phone_1,
-        pt_name_2: appointment.pt_name_2,
-        id_2: appointment.id_2,
-        phone_2: appointment.phone_2,
-        remarks: appointment.remarks
-      };
+	      const original = {
+	        cwa: !!appointment.cwa,
+	        pt_name: appointment.pt_name,
+	        rmsw: appointment.rmsw,
+	        ea: appointment.ea,
+	        new_fu: appointment.new_fu,
+	        remarks: appointment.remarks
+	      };
       originalValues.value.set(appointment.id, original);
 
       // Also store in localStorage for auto-unlock to access
@@ -1119,15 +1008,14 @@ const saveAppointment = async (appointment) => {
 
   try {
     // Format ID and Phone fields before saving
-    const updates = {
-      pt_name_1: appointment.pt_name_1 || '',
-      id_1: formatIdField(appointment.id_1 || ''),
-      phone_1: formatPhoneField(appointment.phone_1 || ''),
-      pt_name_2: appointment.pt_name_2 || '',
-      id_2: formatIdField(appointment.id_2 || ''),
-      phone_2: formatPhoneField(appointment.phone_2 || ''),
-      remarks: appointment.remarks || ''
-    };
+	    const updates = {
+	      cwa: !!appointment.cwa,
+	      pt_name: appointment.pt_name || '',
+	      rmsw: appointment.rmsw || '',
+	      ea: appointment.ea || '',
+	      new_fu: appointment.new_fu || '',
+	      remarks: appointment.remarks || ''
+	    };
 
     const result = await store.saveAppointment(appointment.id, updates);
 
@@ -1171,6 +1059,8 @@ const saveAppointment = async (appointment) => {
 onMounted(() => {
   store.subscribeToAppointments();
   fetchPublicHolidays();
+  fetchMswList();
+  fetchEaList();
 });
 
 // Cleanup on unmount
@@ -1191,9 +1081,9 @@ onUnmounted(() => {
   text-align: center;
   margin-bottom: 2rem;
   padding: 2rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--app-primary) 0%, var(--app-primary-alt) 100%);
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 30px rgba(15, 118, 110, 0.35);
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -1273,7 +1163,7 @@ onUnmounted(() => {
   text-align: center;
   margin-bottom: 1.5rem;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f9fafb 0%, var(--app-primary-soft) 100%);
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
@@ -1300,7 +1190,7 @@ onUnmounted(() => {
 .date-value {
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--app-primary) 0%, var(--app-primary-alt) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1319,6 +1209,37 @@ onUnmounted(() => {
   border-radius: 8px;
   overflow: hidden;
   width: 100%;
+}
+
+.newfu-toggle {
+	display: flex;
+	gap: 0.25rem;
+}
+
+.newfu-button {
+	/* base (unselected) state: light, outlined look */
+	border-radius: 999px;
+	padding: 0.15rem 0.6rem;
+	font-size: 0.75rem;
+	background-color: #ffffff;
+	color: #374151;
+	border: 1px solid #d1d5db;
+}
+
+.newfu-button--new-active {
+	/* New selected: green background, white font */
+	background-color: #16a34a !important; /* green-600 */
+	color: #ffffff !important;
+	border-color: #15803d !important;
+	box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.6);
+}
+
+.newfu-button--fu-active {
+	/* FU selected: dark yellow background, dark font */
+	background-color: #e4f30d !important; /* amber-700 */
+	color: #111827 !important; /* near-black */
+	border-color: #b1ae02 !important;
+	box-shadow: 0 0 0 1px rgba(217, 119, 6, 0.6);
 }
 
 .readonly-field {
@@ -1340,7 +1261,7 @@ onUnmounted(() => {
 }
 
 :deep(.p-datatable .p-datatable-thead > tr > th) {
-  background-color: #3b82f6;
+  background-color: var(--app-primary-alt);
   color: white;
   font-weight: 600;
   padding: 0.4rem 0.3rem;
@@ -1430,7 +1351,7 @@ onUnmounted(() => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(59, 130, 246, 0.95);
+  background: rgba(37, 99, 235, 0.95);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -1504,8 +1425,8 @@ onUnmounted(() => {
 }
 
 :deep(.p-column-filter:focus) {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 0.1rem rgba(59, 130, 246, 0.25);
+	border-color: var(--app-primary-alt);
+	box-shadow: 0 0 0 0.1rem rgba(37, 99, 235, 0.25);
 }
 
 /* Select dropdown filter styling */
@@ -1562,7 +1483,7 @@ onUnmounted(() => {
 
 /* Filter row styling */
 :deep(.p-datatable .p-datatable-thead > tr:last-child > th) {
-  background-color: #e3f2fd;
+	background-color: var(--app-primary-soft);
   padding: 0.3rem 0.3rem;
 }
 

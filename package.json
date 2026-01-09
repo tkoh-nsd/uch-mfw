@@ -1,19 +1,15 @@
 {
-  "name": "tkoh-mfw",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "import-data": "node scripts/importData.js",
-    "fix-data": "node scripts/fixData.js",
-    "list-collections": "node scripts/listCollections.js",
-    "check-excel": "node scripts/checkExcel.js",
-    "test-booking": "node scripts/testBookingFeature.js",
-    "test-booking-log": "node scripts/testBookingWithLog.js"
-  },
+	"name": "uch-mfw",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"import-data": "node scripts/importData.js",
+		"check-excel": "node scripts/checkExcel.js"
+	},
   "dependencies": {
     "@primevue/themes": "^4.5.4",
     "dayjs": "^1.11.19",

@@ -58,20 +58,74 @@
           </template>
         </Card>
 
-        <!-- Future admin cards can be added here -->
-        <!--
-        <Card class="admin-card" @click="goToSomeOtherFunction">
+        <Card class="admin-card" @click="goToMswList">
           <template #title>
             <div class="card-title">
-              <i class="pi pi-cog"></i>
-              Other Admin Function
+              <i class="pi pi-users"></i>
+              MSW List
             </div>
           </template>
           <template #content>
-            <p class="card-description">Description of the other admin function.</p>
+            <p class="card-description">
+              Manage the list of Medical Social Workers for the RMSW dropdown.
+            </p>
+            <div class="card-footer">
+              <span class="card-warning">Used in appointment RMSW field</span>
+              <Button
+                label="Open"
+                icon="pi pi-arrow-right"
+                class="p-button-text p-button-sm"
+                @click.stop="goToMswList"
+              />
+            </div>
           </template>
         </Card>
-        -->
+
+        <Card class="admin-card" @click="goToEaList">
+          <template #title>
+            <div class="card-title">
+              <i class="pi pi-user"></i>
+              EA List
+            </div>
+          </template>
+          <template #content>
+            <p class="card-description">
+              Manage the list of Executive Assistants for the EA dropdown.
+            </p>
+            <div class="card-footer">
+              <span class="card-warning">Used in appointment EA field</span>
+              <Button
+                label="Open"
+                icon="pi pi-arrow-right"
+                class="p-button-text p-button-sm"
+                @click.stop="goToEaList"
+              />
+            </div>
+          </template>
+        </Card>
+
+        <Card class="admin-card" @click="goToPublicHolidays">
+          <template #title>
+            <div class="card-title">
+              <i class="pi pi-calendar-times"></i>
+              Public Holidays
+            </div>
+          </template>
+          <template #content>
+            <p class="card-description">
+              Manage public holidays that will be disabled in the calendar.
+            </p>
+            <div class="card-footer">
+              <span class="card-warning">Disables dates in calendar</span>
+              <Button
+                label="Open"
+                icon="pi pi-arrow-right"
+                class="p-button-text p-button-sm"
+                @click.stop="goToPublicHolidays"
+              />
+            </div>
+          </template>
+        </Card>
       </div>
     </div>
   </div>
@@ -95,6 +149,18 @@ const goToImport = () => {
 const goToAddDays = () => {
   router.push('/admin/add-days');
 };
+
+const goToMswList = () => {
+  router.push('/admin/msw-list');
+};
+
+const goToEaList = () => {
+  router.push('/admin/ea-list');
+};
+
+const goToPublicHolidays = () => {
+  router.push('/admin/public-holidays');
+};
 </script>
 
 <style scoped>
@@ -103,7 +169,7 @@ const goToAddDays = () => {
   max-width: 1400px;
   margin: 0 auto;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f9fafb 0%, var(--app-primary-soft) 100%);
 }
 
 .admin-header {
@@ -116,7 +182,7 @@ const goToAddDays = () => {
 .admin-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--app-primary) 0%, var(--app-primary-alt) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -129,8 +195,14 @@ const goToAddDays = () => {
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .admin-card {
@@ -153,7 +225,7 @@ const goToAddDays = () => {
 }
 
 .card-title i {
-  color: #667eea;
+	color: var(--app-primary-alt);
 }
 
 .card-description {

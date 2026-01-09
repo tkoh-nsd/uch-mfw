@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config'
-import Aura from '@primevue/themes/aura'
+import Lara from '@primevue/themes/lara'
 import ToastService from 'primevue/toastservice'
 import Tooltip from 'primevue/tooltip'
 import router from './router'
@@ -16,7 +16,7 @@ app.use(pinia)
 app.use(router)
 app.use(PrimeVue, {
   theme: {
-    preset: Aura,
+    preset: Lara,
     options: {
       darkModeSelector: false
     }

@@ -6,24 +6,15 @@ import { dirname, join } from 'path';
 import { readFileSync } from 'fs';
 import dayjs from 'dayjs';
 
-// Field formatting functions
-function formatIdField(value) {
-  if (!value) return '';
-  const trimmed = String(value).trim().toUpperCase();
-  const letters = trimmed.match(/[A-Z]/g) || [];
-  const digits = trimmed.match(/\d/g) || [];
-  const formattedLetters = letters.slice(0, 2).join('');
-  const formattedDigits = digits.slice(0, 3).join('');
-  if (formattedLetters.length > 0 && formattedDigits.length > 0) {
-    return formattedLetters + formattedDigits;
+// Convert Excel decimal time (e.g. 0.375) to HH:mm string
+function excelDecimalToHHMM(excelTime) {
+  if (typeof excelTime !== 'number') {
+    return excelTime;
   }
-  return formattedLetters + formattedDigits;
-}
-
-function formatPhoneField(value) {
-  if (!value) return '';
-  const digits = String(value).match(/\d/g) || [];
-  return digits.slice(0, 4).join('');
+  const totalMinutes = Math.round(excelTime * 24 * 60);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -31,13 +22,13 @@ const __dirname = dirname(__filename);
 
 // TODO: Replace with your Firebase project configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBDWsSD3BNnu6FJqqLns8Vs8M42jj2jKIo",
-  authDomain: "tkoh-mfw.firebaseapp.com",
-  projectId: "tkoh-mfw",
-  storageBucket: "tkoh-mfw.firebasestorage.app",
-  messagingSenderId: "874621881576",
-  appId: "1:874621881576:web:e29140cc1e06c28d664d5d",
-  measurementId: "G-E3W0X5MK5Z"
+  apiKey: "AIzaSyDCAYOZUwhAf3GZZO3pQ3A2fWkfseEcCXo",
+  authDomain: "uch-mfw.firebaseapp.com",
+  projectId: "uch-mfw",
+  storageBucket: "uch-mfw.firebasestorage.app",
+  messagingSenderId: "97638314402",
+  appId: "1:97638314402:web:8a73941ba7cf01ce4e02fb",
+  measurementId: "G-HV3N1WGXYW"
 };
 
 // Initialize Firebase
@@ -82,11 +73,9 @@ async function importData() {
         // String date
         currentDate = dayjs(dateValue).format('YYYY-MM-DD');
       }
-    }
-    
-    // Update current weekday if cell is not empty
-    if (row[1]) {
-      currentWeekday = row[1];
+
+      // Derive weekday from date (e.g. "Monday")
+      currentWeekday = dayjs(currentDate).format('dddd');
     }
     
     // Skip if we don't have a valid date yet
@@ -95,34 +84,37 @@ async function importData() {
       continue;
     }
     
-    // Convert time from Excel decimal to HH:mm format
-    let timeValue = row[2] || '';
-    if (typeof timeValue === 'number') {
-      // Excel stores time as decimal (e.g., 0.375 = 9:00 AM)
-      const totalMinutes = Math.round(timeValue * 24 * 60);
-      const hours = Math.floor(totalMinutes / 60);
-      const minutes = totalMinutes % 60;
-      timeValue = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-    }
+	    // Convert time from Excel decimal to HH:mm format (column B)
+	    let timeValue = row[1] ?? '';
+	    if (typeof timeValue === 'number') {
+	      // Excel stores time as decimal (e.g., 0.375 = 9:00 AM)
+	      timeValue = excelDecimalToHHMM(timeValue);
+	    }
 
-    // Create appointment document with formatted ID and Phone fields
-    const appointment = {
-      date: currentDate,
-      weekday: currentWeekday || '',
-      time: timeValue,
-      service: row[3] || '',
-      pt_name_1: row[4] || '',
-      id_1: formatIdField(row[5] || ''),
-      phone_1: formatPhoneField(row[6] || ''),
-      pt_name_2: row[7] || '',
-      id_2: formatIdField(row[8] || ''),
-      phone_2: formatPhoneField(row[9] || ''),
-      remarks: row[10] || ''
-    };
+	    // Convert remarks if it is an Excel decimal time (Column I)
+	    let remarksValue = row[8] ?? '';
+	    if (typeof remarksValue === 'number') {
+	      remarksValue = excelDecimalToHHMM(remarksValue);
+	    }
+
+	    // Create appointment document using new column layout
+	    const rawCwa = row[3]; // Column D: CWA ("Y" or empty)
+	    const appointment = {
+	      date: currentDate,
+	      weekday: currentWeekday || '',
+	      time: timeValue,
+	      service: row[2] || '', // Column C: Service
+	      cwa: String(rawCwa).trim().toUpperCase() === 'Y',
+	      pt_name: row[4] || '', // Column E: Pt Name
+	      rmsw: row[5] || '',    // Column F: RMSW
+	      ea: row[6] || '',      // Column G: EA
+	      new_fu: row[7] || '',  // Column H: New/FU
+	      remarks: remarksValue  // Column I: Remarks (may be converted HH:mm)
+	    };
     
     try {
-      // Use date as collection name and auto-generate document ID
-      const collectionRef = collection(db, currentDate);
+      // New structure: bookings/{date}/appointments/{appointmentId}
+      const collectionRef = collection(db, 'bookings', currentDate, 'appointments');
       const docRef = doc(collectionRef);
       
       await setDoc(docRef, appointment);
