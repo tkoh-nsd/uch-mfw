@@ -1,0 +1,700 @@
+
+🔍 Scanning appointments from 2026-02-02 to 2026-03-02...
+
+Checking 2026-02-02 (Monday)...
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ⚠️  15:00 (Full): Only 3 slots, missing 1
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 2 slots, missing 2
+  ✓ 12:00 (Full): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+Checking 2026-02-03 (Tuesday)...
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ⚠️  09:00 (Full): Only 3 slots, missing 1
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ⚠️  15:00 (Full): Only 3 slots, missing 1
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ⚠️  12:00 (Full): Only 1 slots, missing 3
+  ⚠️  14:00 (Full): Only 2 slots, missing 2
+Checking 2026-02-04 (Wednesday)...
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ⚠️  15:00 (Full): Only 2 slots, missing 2
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ⚠️  09:00 (Full): Only 3 slots, missing 1
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 2 slots, missing 2
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+Checking 2026-02-05 (Thursday)...
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ⚠️  09:00 (Full): Only 3 slots, missing 1
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 2 slots, missing 2
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+Checking 2026-02-06 (Friday)...
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ⚠️  09:00 (Full): Only 3 slots, missing 1
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ⚠️  15:00 (Full): Only 3 slots, missing 1
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 2 slots, missing 2
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ✓ 16:00 (Full): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+Checking 2026-02-07 (Saturday)...
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+Checking 2026-02-08 (Sunday)...
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+Checking 2026-02-09 (Monday)...
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ⚠️  15:00 (Full): Only 3 slots, missing 1
+  ✓ 12:00 (Full): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 3 slots, missing 1
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+  ⚠️  09:00 (Full): Only 3 slots, missing 1
+  ✓ 16:00 (Full): 4 slots (OK)
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+Checking 2026-02-10 (Tuesday)...
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ⚠️  10:00 (Full): Only 1 slots, missing 3
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 2 slots, missing 2
+  ⚠️  15:00 (Full): Only 3 slots, missing 1
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+Checking 2026-02-11 (Wednesday)...
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ⚠️  15:00 (Full): Only 3 slots, missing 1
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+  ⚠️  14:00 (Full): Only 2 slots, missing 2
+  ⚠️  09:00 (Full): Only 2 slots, missing 2
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+Checking 2026-02-12 (Thursday)...
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ⚠️  09:00 (Full): Only 3 slots, missing 1
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+Checking 2026-02-13 (Friday)...
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 2 slots, missing 2
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ⚠️  09:00 (Full): Only 2 slots, missing 2
+  ⚠️  15:00 (Full): Only 2 slots, missing 2
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+Checking 2026-02-14 (Saturday)...
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+Checking 2026-02-15 (Sunday)...
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+Checking 2026-02-16 (Monday)...
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ⚠️  15:00 (Full): Only 3 slots, missing 1
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 3 slots, missing 1
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ⚠️  09:00 (Full): Only 3 slots, missing 1
+  ✓ 12:00 (Full): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+Checking 2026-02-17 (Tuesday)...
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+Checking 2026-02-18 (Wednesday)...
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+Checking 2026-02-19 (Thursday)...
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+Checking 2026-02-20 (Friday)...
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ⚠️  09:00 (Full): Only 2 slots, missing 2
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ⚠️  15:00 (Full): Only 3 slots, missing 1
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 2 slots, missing 2
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+Checking 2026-02-21 (Saturday)...
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+Checking 2026-02-22 (Sunday)...
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+Checking 2026-02-23 (Monday)...
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ⚠️  09:00 (Full): Only 3 slots, missing 1
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+Checking 2026-02-24 (Tuesday)...
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ⚠️  15:00 (Full): Only 3 slots, missing 1
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ⚠️  09:00 (Full): Only 1 slots, missing 3
+  ⚠️  14:00 (Full): Only 1 slots, missing 3
+Checking 2026-02-25 (Wednesday)...
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 1 slots, missing 3
+  ⚠️  15:00 (Full): Only 1 slots, missing 3
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+Checking 2026-02-26 (Thursday)...
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ⚠️  15:00 (Full): Only 2 slots, missing 2
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+Checking 2026-02-27 (Friday)...
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ⚠️  10:00 (Full): Only 2 slots, missing 2
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ⚠️  09:00 (Full): Only 2 slots, missing 2
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ⚠️  11:00 (Full): Only 1 slots, missing 3
+Checking 2026-02-28 (Saturday)...
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+Checking 2026-03-01 (Sunday)...
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 14:00 (Full): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+Checking 2026-03-02 (Monday)...
+  ✓ 14:30 (OALA): 4 slots (OK)
+  ✓ 11:45 (OALA): 4 slots (OK)
+  ✓ 10:00 (Full): 4 slots (OK)
+  ✓ 11:00 (Full): 4 slots (OK)
+  ✓ 13:45 (OALA): 4 slots (OK)
+  ✓ 09:30 (OALA): 4 slots (OK)
+  ✓ 08:45 (OALA): 4 slots (OK)
+  ✓ 10:45 (OALA): 4 slots (OK)
+  ✓ 16:00 (Full): 4 slots (OK)
+  ✓ 11:30 (OALA): 4 slots (OK)
+  ✓ 15:30 (OALA): 4 slots (OK)
+  ✓ 15:45 (OALA): 4 slots (OK)
+  ✓ 09:45 (OALA): 4 slots (OK)
+  ✓ 12:00 (Full): 4 slots (OK)
+  ✓ 14:45 (OALA): 4 slots (OK)
+  ⚠️  14:00 (Full): Only 2 slots, missing 2
+  ✓ 10:30 (OALA): 4 slots (OK)
+  ✓ 09:00 (Full): 4 slots (OK)
+  ✓ 15:00 (Full): 4 slots (OK)
+
+📊 Summary:
+   Total missing appointments: 136
+
+Missing appointments by date:
+
+  2026-02-02:
+    - 15:00 (Full): 1 missing
+    - 10:00 (Full): 2 missing
+    - 14:00 (Full): 2 missing
+    - 11:00 (Full): 3 missing
+
+  2026-02-03:
+    - 09:00 (Full): 1 missing
+    - 15:00 (Full): 1 missing
+    - 11:00 (Full): 3 missing
+    - 10:00 (Full): 2 missing
+    - 12:00 (Full): 3 missing
+    - 14:00 (Full): 2 missing
+
+  2026-02-04:
+    - 15:00 (Full): 2 missing
+    - 09:00 (Full): 1 missing
+    - 14:00 (Full): 2 missing
+    - 10:00 (Full): 2 missing
+    - 11:00 (Full): 3 missing
+
+  2026-02-05:
+    - 10:00 (Full): 2 missing
+    - 09:00 (Full): 1 missing
+    - 14:00 (Full): 2 missing
+
+  2026-02-06:
+    - 09:00 (Full): 1 missing
+    - 15:00 (Full): 1 missing
+    - 14:00 (Full): 2 missing
+    - 10:00 (Full): 2 missing
+    - 11:00 (Full): 3 missing
+
+  2026-02-09:
+    - 15:00 (Full): 1 missing
+    - 14:00 (Full): 1 missing
+    - 11:00 (Full): 3 missing
+    - 09:00 (Full): 1 missing
+    - 10:00 (Full): 2 missing
+
+  2026-02-10:
+    - 10:00 (Full): 3 missing
+    - 14:00 (Full): 2 missing
+    - 15:00 (Full): 1 missing
+    - 11:00 (Full): 3 missing
+
+  2026-02-11:
+    - 15:00 (Full): 1 missing
+    - 10:00 (Full): 2 missing
+    - 11:00 (Full): 3 missing
+    - 14:00 (Full): 2 missing
+    - 09:00 (Full): 2 missing
+
+  2026-02-12:
+    - 09:00 (Full): 1 missing
+    - 11:00 (Full): 3 missing
+    - 10:00 (Full): 2 missing
+
+  2026-02-13:
+    - 14:00 (Full): 2 missing
+    - 10:00 (Full): 2 missing
+    - 09:00 (Full): 2 missing
+    - 15:00 (Full): 2 missing
+    - 11:00 (Full): 3 missing
+
+  2026-02-16:
+    - 15:00 (Full): 1 missing
+    - 14:00 (Full): 1 missing
+    - 10:00 (Full): 2 missing
+    - 09:00 (Full): 1 missing
+    - 11:00 (Full): 3 missing
+
+  2026-02-20:
+    - 09:00 (Full): 2 missing
+    - 15:00 (Full): 1 missing
+    - 10:00 (Full): 2 missing
+    - 14:00 (Full): 2 missing
+    - 11:00 (Full): 3 missing
+
+  2026-02-23:
+    - 09:00 (Full): 1 missing
+    - 10:00 (Full): 2 missing
+    - 11:00 (Full): 3 missing
+
+  2026-02-24:
+    - 15:00 (Full): 1 missing
+    - 09:00 (Full): 3 missing
+    - 14:00 (Full): 3 missing
+
+  2026-02-25:
+    - 14:00 (Full): 3 missing
+    - 15:00 (Full): 3 missing
+
+  2026-02-26:
+    - 15:00 (Full): 2 missing
+
+  2026-02-27:
+    - 10:00 (Full): 2 missing
+    - 09:00 (Full): 2 missing
+    - 11:00 (Full): 3 missing
+
+  2026-03-02:
+    - 14:00 (Full): 2 missing
+
+❓ Do you want to add these missing appointments? (yes/no): 
+📝 Adding 136 missing appointments...
+
+  Added 136 / 136 appointments...
+
+✅ Successfully added 136 appointments!
+

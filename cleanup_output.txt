@@ -1,0 +1,8 @@
+
+🔍 Scanning all appointments for legacy fields...
+
+Error: [FirebaseError: Missing or insufficient permissions.] {
+  code: 'permission-denied',
+  customData: undefined,
+  toString: [Function (anonymous)]
+}
