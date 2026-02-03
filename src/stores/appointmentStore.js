@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { collection, query, onSnapshot, doc, updateDoc, serverTimestamp, deleteField } from 'firebase/firestore';
+import { collection, query, onSnapshot, doc, updateDoc, serverTimestamp, deleteField, collectionGroup, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
@@ -372,6 +372,56 @@ export const useAppointmentStore = defineStore('appointment', () => {
     stopAutoUnlockChecker();
   };
 
+  // Search appointments across all dates using collectionGroup
+  const searchAppointments = async (searchTerm) => {
+    if (!searchTerm || searchTerm.trim() === '') {
+      return [];
+    }
+
+    try {
+      const searchLower = searchTerm.toLowerCase();
+      const appointmentsRef = collectionGroup(db, 'appointments');
+      const snapshot = await getDocs(appointmentsRef);
+
+      const results = [];
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        const docPath = doc.ref.path; // e.g., "bookings/2024-01-15/appointments/apt123"
+
+        // Extract date from path: bookings/{date}/appointments/{id}
+        const pathParts = docPath.split('/');
+        const date = pathParts[1]; // Get the date part
+
+        // Check if pt_name field matches (case-insensitive)
+        const pt_name = (data.pt_name || '').toLowerCase();
+
+        if (pt_name.includes(searchLower)) {
+          results.push({
+            id: doc.id,
+            date: date,
+            ...data
+          });
+        }
+      });
+
+      // Sort by date (ascending) and then by time
+      results.sort((a, b) => {
+        const dateCompare = a.date.localeCompare(b.date);
+        if (dateCompare !== 0) return dateCompare;
+
+        const timeA = String(a.time || '');
+        const timeB = String(b.time || '');
+        return timeA.localeCompare(timeB);
+      });
+
+      return results;
+    } catch (error) {
+      console.error('Error searching appointments:', error);
+      return [];
+    }
+  };
+
   return {
     selectedDate,
     appointments,
@@ -386,6 +436,7 @@ export const useAppointmentStore = defineStore('appointment', () => {
     bookAppointment,
     cancelBooking,
     saveAppointment,
+    searchAppointments,
     cleanup
   };
 });

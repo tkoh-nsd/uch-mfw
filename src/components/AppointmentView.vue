@@ -33,6 +33,15 @@
         @click="store.goToNextDay()"
         class="p-button-outlined"
       />
+
+      <!-- Search Button -->
+      <Button
+        icon="pi pi-search"
+        @click="showSearchModal = true"
+        class="p-button-outlined search-button"
+        v-tooltip="'Search appointments'"
+        rounded
+      />
     </div>
 
     <div class="selected-date">
@@ -42,6 +51,83 @@
       </h2>
     </div>
 
+    <!-- Search Modal -->
+    <Dialog
+      v-model:visible="showSearchModal"
+      header="Search Appointments"
+      :modal="true"
+      :style="{ width: '90vw', maxWidth: '600px' }"
+      class="search-modal"
+    >
+      <template #header>
+        <div class="search-modal-header">
+          <i class="pi pi-search"></i>
+          <span>Search Appointments</span>
+        </div>
+      </template>
+
+      <div class="search-modal-content">
+        <!-- Search Input -->
+        <InputText
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search by patient name..."
+          class="search-input"
+          autofocus
+          @input="performSearch"
+        />
+
+        <!-- Loading Spinner -->
+        <div v-if="searchLoading" class="search-loading">
+          <ProgressSpinner :strokeWidth="4" />
+        </div>
+
+        <!-- Results -->
+        <div v-else-if="searchResults.length > 0" class="search-results">
+          <div
+            v-for="result in searchResults"
+            :key="`${result.date}-${result.id}`"
+            class="search-result-card"
+            @click="selectSearchResult(result)"
+          >
+            <div class="result-header">
+              <div class="result-date-time">
+                <div class="result-date">
+                  <i class="pi pi-calendar"></i>
+                  <span>{{ formatResultDate(result.date) }}</span>
+                </div>
+                <div class="result-time">
+                  <i class="pi pi-clock"></i>
+                  <span>{{ result.time || '--' }}</span>
+                </div>
+              </div>
+              <div class="result-service">
+                <Tag :value="result.service || 'N/A'" :severity="getServiceSeverity(result.service)" />
+              </div>
+            </div>
+            <div class="result-details">
+              <div class="detail-row">
+                <span class="detail-label">Patient:</span>
+                <span class="detail-value">{{ result.pt_name || '--' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty States -->
+        <div v-else class="search-empty">
+          <div v-if="searchQuery === ''" class="empty-hint">
+            <i class="pi pi-search"></i>
+            <p>Enter a patient name to search</p>
+          </div>
+          <div v-else class="no-results">
+            <i class="pi pi-inbox"></i>
+            <p>No appointments found</p>
+          </div>
+        </div>
+      </div>
+    </Dialog>
+
     <!-- Loading Indicator -->
     <div v-if="store.loading" class="loading">
       <ProgressSpinner />
@@ -49,6 +135,22 @@
 
     <!-- Appointments Table -->
 	    <div v-else-if="store.appointments.length > 0" class="appointments-table">
+	      <!-- Reset Filters Button -->
+	      <div class="reset-filters-container">
+	        <Button
+	          v-if="hasActiveFilters"
+	          label="Reset Filters"
+	          icon="pi pi-filter-slash"
+	          @click="resetFilters"
+	          class="p-button-secondary p-button-sm"
+	          v-tooltip="'Clear all filters'"
+	        />
+	        <div v-else class="no-filters-hint" v-tooltip="'No active filters'">
+	          <i class="pi pi-filter-slash"></i>
+	          <span>No active filters</span>
+	        </div>
+	      </div>
+
 	      <DataTable
 	        :value="filteredAppointments"
 	        dataKey="id"
@@ -424,6 +526,8 @@
 		import { FilterMatchMode } from '@primevue/core/api';
 	import { collection, getDocs } from 'firebase/firestore';
 	import { db } from '../firebase';
+	import Dialog from 'primevue/dialog';
+	import Tag from 'primevue/tag';
 
 // Tooltip directive is registered globally in main.js
 
@@ -459,6 +563,14 @@ const showFilters = ref(true);
 
 // Store saved filter state for restoration
 const savedFilterState = ref(null);
+
+// Search modal state
+const showSearchModal = ref(false);
+const searchQuery = ref('');
+const searchResults = ref([]);
+const searchLoading = ref(false);
+const searchAppointmentToFilter = ref(null);
+const navigatingFromSearch = ref(false);
 
 // Initialize filters for DataTable
 	const filters = ref({
@@ -1035,11 +1147,6 @@ const handleFieldBlur = (appointmentId, fieldName) => {
   // This ensures that when user clicks away, the idle timer starts counting
 };
 
-// Get last activity time for an appointment (for auto-unlock logic)
-const getLastActivityTime = (appointmentId) => {
-  return lastActivityTime.value.get(appointmentId) || null;
-};
-
 	// ID/Phone fields have been removed in the new layout, so no special formatters are needed.
 
 // Book appointment
@@ -1254,6 +1361,144 @@ const saveAppointment = async (appointment) => {
   }
 };
 
+// Debounce timer for search
+let searchDebounceTimer = null;
+
+// Perform search with debouncing
+const performSearch = () => {
+  // Clear previous timer
+  if (searchDebounceTimer) {
+    clearTimeout(searchDebounceTimer);
+  }
+
+  // Set new timer for debounced search
+  searchDebounceTimer = setTimeout(async () => {
+    if (searchQuery.value.trim() === '') {
+      searchResults.value = [];
+      return;
+    }
+
+    searchLoading.value = true;
+    try {
+      searchResults.value = await store.searchAppointments(searchQuery.value);
+    } catch (error) {
+      console.error('Error performing search:', error);
+      searchResults.value = [];
+    } finally {
+      searchLoading.value = false;
+    }
+  }, 300); // 300ms debounce
+};
+
+// Format date for display in search results
+const formatResultDate = (dateStr) => {
+  return dayjs(dateStr).format('ddd, MMM D, YYYY');
+};
+
+// Get severity for service badge
+const getServiceSeverity = (service) => {
+  const severityMap = {
+    'MSW': 'info',
+    'EA': 'success',
+    'CWA': 'warning',
+    'Other': 'secondary'
+  };
+  return severityMap[service] || 'secondary';
+};
+
+// Select a search result and navigate to it
+const selectSearchResult = async (result) => {
+  try {
+    // Store the appointment data for filtering
+    searchAppointmentToFilter.value = result;
+    navigatingFromSearch.value = true;
+
+    // Close the modal
+    showSearchModal.value = false;
+
+    // Navigate to the appointment's date
+    store.setDate(result.date);
+
+    // Show success toast
+    toast.add({
+      severity: 'success',
+      summary: 'Navigating',
+      detail: `Showing appointment on ${formatResultDate(result.date)}`,
+      life: 3000
+    });
+
+    // Wait for appointments to load, then apply filters
+    await nextTick();
+
+    // Give the store time to fetch appointments for the new date
+    setTimeout(() => {
+      applySearchFilters(result);
+    }, 500);
+  } catch (error) {
+    console.error('Error selecting search result:', error);
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Failed to navigate to appointment',
+      life: 3000
+    });
+  }
+};
+
+// Apply filters based on the selected search result
+const applySearchFilters = (appointment) => {
+  // Clear existing filters first
+  filters.value.time.value = null;
+  filters.value.service.value = null;
+  filters.value.cwa.value = null;
+  filters.value.pt_name.value = null;
+  filters.value.rmsw.value = null;
+  filters.value.ea.value = null;
+  filters.value.new_fu.value = null;
+  filters.value.remarks.value = null;
+  filters.value.last_edit.value = null;
+
+  // Apply time filter if available
+  if (appointment.time) {
+    filters.value.time.value = appointment.time;
+  }
+
+  // Apply patient name filter
+  if (appointment.pt_name) {
+    filters.value.pt_name.value = appointment.pt_name;
+  }
+
+  // Apply the filter snapshot
+  applyFilterSnapshot();
+
+  // Reset the navigation flag
+  navigatingFromSearch.value = false;
+};
+
+// Reset all filters
+const resetFilters = () => {
+  filters.value.time.value = null;
+  filters.value.service.value = null;
+  filters.value.cwa.value = null;
+  filters.value.pt_name.value = null;
+  filters.value.rmsw.value = null;
+  filters.value.ea.value = null;
+  filters.value.new_fu.value = null;
+  filters.value.remarks.value = null;
+  filters.value.last_edit.value = null;
+
+  // Clear the filter snapshot
+  visibleAppointmentIds.value.clear();
+  hasActiveFilters.value = false;
+
+  toast.add({
+    severity: 'info',
+    summary: 'Filters Reset',
+    detail: 'All filters have been cleared',
+    life: 3000
+  });
+};
+
 // Initialize on mount
 onMounted(() => {
   store.subscribeToAppointments();
@@ -1345,12 +1590,31 @@ onUnmounted(() => {
 }
 
 .date-navigation {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: flex-start;
   gap: 0.5rem;
   margin-bottom: 1rem;
-  flex-wrap: wrap;
+  position: relative;
+}
+
+.date-navigation > :nth-child(1) {
+  grid-column: 1;
+}
+
+.date-navigation > :nth-child(2) {
+  grid-column: 2;
+  justify-self: center;
+}
+
+.date-navigation > :nth-child(3) {
+  grid-column: 3;
+}
+
+.date-navigation > :nth-child(4) {
+  grid-column: 3;
+  grid-row: 2;
+  align-self: end;
 }
 
 .calendar-container {
@@ -1688,6 +1952,223 @@ onUnmounted(() => {
 
 :deep(.p-datatable .p-datatable-thead > tr:first-child > th) {
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Search Button Styling */
+.search-button {
+  position: relative;
+  border-radius: 50% !important;
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.search-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+}
+
+/* Search Modal Styling */
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, var(--app-primary) 0%, var(--app-primary-alt) 100%);
+  color: white;
+  padding: 1rem;
+  margin: -1rem -1rem 0 -1rem;
+  border-radius: 12px 12px 0 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.search-modal-header i {
+  font-size: 1.3rem;
+}
+
+.search-modal-content {
+  padding: 1.5rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: var(--app-primary);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+  outline: none;
+}
+
+.search-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.search-results {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.search-result-card {
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.search-result-card:hover {
+  border-color: var(--app-primary);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.15);
+  transform: translateY(-2px);
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.result-date-time {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.result-date,
+.result-time {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: var(--app-text-main);
+}
+
+.result-date i,
+.result-time i {
+  color: var(--app-primary);
+  font-size: 1rem;
+}
+
+.result-service {
+  flex-shrink: 0;
+}
+
+.result-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-row {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: #64748b;
+  min-width: 60px;
+}
+
+.detail-value {
+  color: var(--app-text-main);
+  word-break: break-word;
+}
+
+.search-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  flex-direction: column;
+  gap: 1rem;
+  color: #94a3b8;
+}
+
+.search-empty i {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.empty-hint,
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.empty-hint p,
+.no-results p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Reset Filters Container */
+.reset-filters-container {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 40px;
+}
+
+.no-filters-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.no-filters-hint i {
+  font-size: 1rem;
+}
+
+/* Modal responsive styling */
+:deep(.search-modal .p-dialog) {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+:deep(.search-modal .p-dialog-header) {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+:deep(.search-modal .p-dialog-content) {
+  padding: 0;
+}
+
+:deep(.search-modal .p-dialog-mask .p-dialog) {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 </style>
 

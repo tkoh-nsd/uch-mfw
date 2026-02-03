@@ -5,6 +5,11 @@ service cloud.firestore {
     // WARNING: This is for development only!
     // For production, implement proper authentication and authorization
 
+    // Allow collectionGroup queries on appointments subcollections (must come first)
+    match /{path=**}/appointments/{appointment} {
+      allow read, write: if true;
+    }
+
     // Structure: bookings/{date}/appointments/{appointmentId}
     match /bookings/{date}/appointments/{appointment} {
       allow read, write: if true;
