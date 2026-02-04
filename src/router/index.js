@@ -6,6 +6,7 @@ import AdminAddDaysPage from '../components/AdminAddDaysPage.vue';
 import AdminMswListPage from '../components/AdminMswListPage.vue';
 import AdminEaListPage from '../components/AdminEaListPage.vue';
 import AdminPublicHolidaysPage from '../components/AdminPublicHolidaysPage.vue';
+import AdminBulkExportPage from '../components/AdminBulkExportPage.vue';
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
     path: '/admin/public-holidays',
     name: 'AdminPublicHolidays',
     component: AdminPublicHolidaysPage
+  },
+  {
+    path: '/admin/bulk-export',
+    name: 'AdminBulkExport',
+    component: AdminBulkExportPage
   }
 ];
 

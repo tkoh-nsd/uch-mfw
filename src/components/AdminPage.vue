@@ -126,6 +126,29 @@
             </div>
           </template>
         </Card>
+
+        <Card class="admin-card" @click="goToBulkExport">
+          <template #title>
+            <div class="card-title">
+              <i class="pi pi-file-excel"></i>
+              Bulk Export
+            </div>
+          </template>
+          <template #content>
+            <p class="card-description">
+              Export appointments for a date range to an Excel file.
+            </p>
+            <div class="card-footer">
+              <span class="card-warning">Select date range</span>
+              <Button
+                label="Open"
+                icon="pi pi-arrow-right"
+                class="p-button-text p-button-sm"
+                @click.stop="goToBulkExport"
+              />
+            </div>
+          </template>
+        </Card>
       </div>
     </div>
   </div>
@@ -160,6 +183,10 @@ const goToEaList = () => {
 
 const goToPublicHolidays = () => {
   router.push('/admin/public-holidays');
+};
+
+const goToBulkExport = () => {
+  router.push('/admin/bulk-export');
 };
 </script>
 
